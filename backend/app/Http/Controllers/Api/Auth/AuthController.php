@@ -10,7 +10,7 @@ use App\Http\Resources\User\AuthResource;
 use App\Http\Resources\ErrorResource;
 use App\Http\Resources\SuccessResource;
 use App\Http\Resources\User\UserResource;
-use App\Models\User;
+use App\Models\Employee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -21,14 +21,11 @@ class AuthController extends Controller
         $validated = $request->validated();
         
 
-        $user = User::create([
+        $user = Employee::create([
             'name' => $validated['name'],
-            'surname'=> $validated['surname'],
             'email' => $validated['email'],
-            'password' => Hash::make($validated['password']),
-            'phone_number' => $validated['phone_number'],
-            'pesel' =>  $validated['pesel'],
-            'role' =>  $validated['role'],
+            'password' => password_hash(hash_hmac("sha256", $validated["password"], getenv("PEPPER")),PASSWORD_ARGON2ID),
+            'admin' =>  $validated['admin'],
 
         ]);
 
@@ -47,9 +44,9 @@ class AuthController extends Controller
     {
         $validated = $request->validated();
 
-        $user = User::where('email', $validated['email'])->first();
+        $user = Employee::where('email', $validated['email'])->first();
 
-        if (!$user || !Hash::check($validated['password'], $user->password)) {
+        if (!$user || !password_verify(hash_hmac("sha256", $validated["password"], getenv("PEPPER")),$user->password)) {
             return new ErrorResource([
                 'message' => 'Invalid credentials',
                 'status_code' => 401

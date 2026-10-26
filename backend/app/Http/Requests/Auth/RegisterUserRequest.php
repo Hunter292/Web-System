@@ -25,9 +25,7 @@ class RegisterUserRequest extends FormRequest
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
-            'phone_number' => 'required|string|max:20',
-            'pesel' => 'required|string|size:11',
-            'role' => 'required|integer|max:3',
+            'admin' => 'required|integer|max:2',
 
         ];
     }
@@ -52,9 +50,6 @@ class RegisterUserRequest extends FormRequest
             'password.min' => 'The password must be at least 8 characters.',
             'password.confirmed' => 'Password confirmation does not match.',
 
-            'phone_number.required' => 'The phone field is required.',
-            'phone_number.string' => 'The phone must be a string.',
-            'phone_number.max' => 'The phone may not be greater than 20 characters.',
         ];
     }
 
