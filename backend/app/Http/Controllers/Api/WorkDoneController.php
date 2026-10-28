@@ -5,11 +5,14 @@ namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginUserRequest;
+use App\Http\Requests\Auth\PatchWorkdoneRequest;
+use App\Http\Requests\Auth\PostWorkdoneRequest;
 use App\Http\Requests\Auth\RegisterUserRequest;
 use App\Http\Resources\User\AuthResource;
 use App\Http\Resources\ErrorResource;
 use App\Http\Resources\SuccessResource;
 use App\Http\Resources\User\UserResource;
+use App\Models\Client;
 use App\Models\Employee;
 use App\Models\Work;
 use Illuminate\Http\Request;
@@ -30,6 +33,9 @@ class WorkDoneController extends Controller
         $work=Work::create($validated);
         $client->associate($work);
         $client->save();
+        $worker=$validated->user();
+        $worker->associate($work);
+        $worker->save();
         return new SuccessResource([
             'message' => 'Added work successfully'
         ]);

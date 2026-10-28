@@ -8,7 +8,7 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\Rule;
 use Illuminate\Contracts\Validation\ValidationRule;
 
-class PostWorkdoneRequest extends FormRequest
+class PatchWorkdoneRequest extends FormRequest
 {
    /**
      * Determine if the user is authorized to make this request.
@@ -30,7 +30,7 @@ class PostWorkdoneRequest extends FormRequest
             'time_finish' => 'sometimes|string',
             'date' => ['sometimes',Rule::date()->format('Y-m-d')],
             'notes' => 'sometimes|string',
-
+            'employee_id'=>'missing',
 
         ];
     }
