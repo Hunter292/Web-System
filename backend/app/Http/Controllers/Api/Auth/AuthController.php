@@ -12,6 +12,7 @@ use App\Http\Resources\SuccessResource;
 use App\Http\Resources\User\UserResource;
 use App\Models\Employee;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
@@ -44,24 +45,41 @@ class AuthController extends Controller
     {
         $validated = $request->validated();
 
-        $user = Employee::where('email', $validated['email'])->first();
+        // $user = Employee::where('email', $validated['email'])->first();
 
-        if (!$user || !password_verify(hash_hmac("sha256", $validated["password"], getenv("PEPPER")),$user->password)) {
+        // if (!$user || !password_verify(hash_hmac("sha256", $validated["password"], getenv("PEPPER")),$user->password)) {
+        //     return new ErrorResource([
+        //         'message' => 'Invalid credentials',
+        //         'status_code' => 401
+        //     ]);
+        // }
+        
+        // $token = $user->createToken('auth_token')->plainTextToken;
+       
+        // $authData = [
+        //     'user' => $user,
+        //     'token' => $token,
+        //     'token_type' => 'Bearer'
+        // ];
+
+        // return new AuthResource($authData);
+        $validated['password']=hash_hmac("sha256", $validated["password"], getenv("PEPPER"));
+        if (!Auth::attempt($validated)) {
             return new ErrorResource([
                 'message' => 'Invalid credentials',
                 'status_code' => 401
             ]);
         }
-
-        $token = $user->createToken('auth_token')->plainTextToken;
-
-        $authData = [
-            'user' => $user,
-            'token' => $token,
-            'token_type' => 'Bearer'
-        ];
-
-        return new AuthResource($authData);
+        $request->session()->regenerate();
+        $user = Auth::user();
+        return response()->json([
+           'id' => $user->employee_id,
+            'email' => $user->email,
+            'name' => $user->name,
+            'admin'=>$user->admin,
+            'time' =>date("Y-m-d H:i:s"),
+            'message' => 'User authenticated successfully',
+        ]);
     }
 
     public function logout(Request $request)
