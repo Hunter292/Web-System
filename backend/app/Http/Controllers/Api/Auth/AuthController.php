@@ -17,29 +17,6 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function register(RegisterUserRequest $request)
-    {
-        $validated = $request->validated();
-        
-
-        $user = Employee::create([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'password' => password_hash(hash_hmac("sha256", $validated["password"], getenv("PEPPER")),PASSWORD_ARGON2ID),
-            'admin' =>  $validated['admin'],
-
-        ]);
-
-        $token = $user->createToken('auth_token')->plainTextToken;
-
-        $authData = [
-            'user' => $user,
-            'token' => $token,
-            'token_type' => 'Bearer'
-        ];
-
-        return new AuthResource($authData);
-    }
 
     public function login(LoginUserRequest $request)
     {
@@ -96,9 +73,6 @@ class AuthController extends Controller
 
     public function user(Request $request)
     {
-        return new SuccessResource([
-            'message' => 'User data retrieved successfully',
-            'data' => new UserResource($request->user())
-        ]);
+       
     }
 }
