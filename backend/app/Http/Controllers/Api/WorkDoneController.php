@@ -1,19 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Api\Auth;
+namespace App\Http\Controllers\Api;
 
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\LoginUserRequest;
-use App\Http\Requests\Auth\PatchWorkdoneRequest;
-use App\Http\Requests\Auth\PostWorkdoneRequest;
-use App\Http\Requests\Auth\RegisterUserRequest;
-use App\Http\Resources\User\AuthResource;
+use App\Http\Requests\Workdone\PatchWorkdoneRequest;
+use App\Http\Requests\Workdone\PostWorkdoneRequest;
 use App\Http\Resources\ErrorResource;
 use App\Http\Resources\SuccessResource;
-use App\Http\Resources\User\UserResource;
 use App\Models\Client;
-use App\Models\Employee;
 use App\Models\Work;
 use Illuminate\Http\Request;
 
@@ -30,19 +25,15 @@ class WorkDoneController extends Controller
                 'status_code' => 422
             ]);
         }
+        $validated['employee_id']=$request->user()->employee_id;
         $work=Work::create($validated);
-        $client->associate($work);
-        $client->save();
-        $worker=$validated->user();
-        $worker->associate($work);
-        $worker->save();
         return new SuccessResource([
             'message' => 'Added work successfully'
         ]);
        
     }
     public function delete(Request $request,Work $work){
-        if($request->user()!==$work->employee){
+        if($request->user()!=$work->employee()->first()){
             return new ErrorResource([
                 'message' => 'Unauthorized',
                 'status_code' => 401
@@ -55,7 +46,7 @@ class WorkDoneController extends Controller
     }
     public function patch(PatchWorkdoneRequest $request,Work $work){
         $validated = $request->validated();
-        if($request->user()!==$work->employee){
+        if($request->user()!=$work->employee()->first()){
             return new ErrorResource([
                 'message' => 'Unauthorized',
                 'status_code' => 401
@@ -68,10 +59,10 @@ class WorkDoneController extends Controller
     }
     public function get(Request $request){
         $user=$request->user();
-        $work=$user->works->orderBy('date','DESC')->orderBy('work_id','DESC')->limit(100)->get();
+        $work=$user->works()->with('client:name,client_nip')->orderBy('date','DESC')->orderBy('work_id','DESC')->limit(100)->get();
         if(isset($_GET['id']))$work=$work->where('client_nip',$_GET['id']);
         if(isset($_GET['date']))$work=$work->where('date',$_GET['date']);
-        return response()->json(['ok'=>true,$work],200);
+        return response()->json($work,200);
     }
 
 
