@@ -38,7 +38,7 @@ services:
       DB_DATABASE: ${MYSQL_DATABASE}
       DB_USERNAME: ${MYSQL_USER}
       DB_PASSWORD: ${MYSQL_PASSWORD}
-      SECRET_KEY:  ${SECRET_KEY}
+      #SECRET_KEY:  ${SECRET_KEY}
       PEPPER:      ${PEPPER}
     env_file:
       - ./backend/.env

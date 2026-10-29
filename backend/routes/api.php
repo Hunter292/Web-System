@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\ClientMailController;
 use App\Http\Controllers\Api\IncomeController;
 use App\Http\Controllers\Api\WorkDoneController;
 use App\Http\Controllers\Api\StaffController;
+use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 require __DIR__ . '/auth.php';
@@ -33,4 +34,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/client_mail/{client}',[ClientMailController::class,'get']);
     Route::post('/client_mail/{client}',[ClientMailController::class,'post']);
+
+    Route::get('/register/{employee?}',[UserController::class,'get']);
+    Route::post('/register',[UserController::class,'post']);
+    Route::patch('/register',[UserController::class,'patch_self']);
+    Route::patch('/register/{employee}',[UserController::class,'patch']);
+    Route::delete('/register/{employee}',[UserController::class,'delete']);
 });

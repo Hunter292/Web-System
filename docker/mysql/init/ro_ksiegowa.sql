@@ -189,7 +189,7 @@ CREATE TABLE `pracownik` (
 
 INSERT INTO `pracownik` (`employee_id`, `name`, `email`, `password`, `admin`, `updated`) VALUES
 
-(1, 'admin', 'admin@admin.com', '$argon2id$v=19$m=65536,t=4,p=1$RDZiWXhoY3AzNXRsNWpVYw$5O03CPfpRztK/RLqUZVp0TN9NDhKlIR57b0w4wXEtBQ', 2, '2026-08-15 13:59:32');
+(1, 'admin', 'admin@ksiegowa.com', '$argon2id$v=19$m=65536,t=4,p=1$RDZiWXhoY3AzNXRsNWpVYw$5O03CPfpRztK/RLqUZVp0TN9NDhKlIR57b0w4wXEtBQ', 2, '2026-08-15 13:59:32');
 
 -- --------------------------------------------------------
 
