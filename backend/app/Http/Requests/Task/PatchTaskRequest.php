@@ -5,7 +5,8 @@ namespace App\Http\Requests\Task;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 class PatchTaskRequest extends FormRequest
 {
     /**
@@ -31,5 +32,15 @@ class PatchTaskRequest extends FormRequest
             'client_nip'=>'sometimes|string',
             'employee_id'=>'missing',
         ];
+    }
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(
+            response()->json([
+                'status' => 'error',
+                'message' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], 422)
+        );
     }
 }
