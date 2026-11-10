@@ -24,7 +24,7 @@ class PatchClientRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'client_nip' => 'sometimes|string|unique',
+            'client_nip' => 'sometimes|string|unique:App\Models\Client,client_nip|max:50',
             'name' => 'sometimes|string|max:255',
             
         ];

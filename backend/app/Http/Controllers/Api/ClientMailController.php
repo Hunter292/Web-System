@@ -17,7 +17,7 @@ class ClientMailController extends Controller
     public function post(PostClientMailRequest $request, Client $client)
     {
         $validated = $request->validated();
-        $present=$client->emails->where('email',$validated['email'])->get();
+        $present=$client->emails()->where('email',$validated['email'])->count();
         if($present){
             return new ErrorResource([
                 'message' => 'Email already assigned to client',
@@ -26,6 +26,7 @@ class ClientMailController extends Controller
         }
         $validated['client_nip']=$client->client_nip;
         $mail=Clientemail::create($validated);
+        $mail->save();
         return new SuccessResource([
             'message' => 'Added mail successfully'
         ]);
@@ -33,7 +34,7 @@ class ClientMailController extends Controller
     }
     
     public function get(Request $request, Client $client){
-        $emails=$client->emails->get();
+        $emails=$client->emails()->get();
         return response()->json($emails,200);
     }
 

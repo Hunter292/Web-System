@@ -24,7 +24,7 @@ class PostClientRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'client_nip' => 'required|string|unique',
+            'client_nip' => 'required|string|unique:App\Models\Client,client_nip|max:50',
             'name' => 'required|string|max:255',
             
         ];

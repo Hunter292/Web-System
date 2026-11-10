@@ -25,11 +25,11 @@ class PostTaskRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'date'=>['required',Rule::date()->format('Y-m-d')],
+            'date'=>'missing',
             'deadline'=>['required',Rule::date()->format('Y-m-d')],
             'priority'=>'required|boolean',
             'description'=>'required|string',
-            'client_nip'=>'required|string',
+            'client_nip'=>'required|string|max:50',
             'victims'=>'required|array',
         ];
     }

@@ -28,7 +28,7 @@ class StaffController extends Controller
         $client_id=NULL;
         if(isset($_GET["id"])) $client_id=$_GET["id"];
         //prepare request
-        $sql="SELECT work_type, name,date,time_start, (Minute(TIMEDIFF(time_finish,time_start))+Hour(TIMEDIFF(time_finish,time_start))*60)/60 as time
+        $sql="SELECT work_id,work_type, name,date,time_start, (Minute(TIMEDIFF(time_finish,time_start))+Hour(TIMEDIFF(time_finish,time_start))*60)/60 as time
         FROM praca LEFT JOIN klient USING(client_nip) WHERE employee_id=:id";
         if($month&&$month2) $sql.=" AND Month(date) BETWEEN :month AND :month2";
         elseif($month) $sql.=" AND Month(date)=:month";

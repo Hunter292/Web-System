@@ -25,7 +25,7 @@ class PostIncomeSingleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'client_nip'=>'sometimes|string',
+            'client_nip'=>'sometimes|string|max:50',
             'amount'=>'sometimes|numeric',
             'date'=>['sometimes',Rule::date()->format('Y-m-d')],
         ];

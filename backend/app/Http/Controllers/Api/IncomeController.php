@@ -50,7 +50,7 @@ class IncomeController extends Controller
         if(isset($_GET["mode"])&& $_GET["mode"]==1){
             if($insert_nips) Client::insert($insert_nips);
             return new SuccessResource([
-            '   message' => 'Added clients successfully'
+                'message' => 'Added clients successfully'
             ]);
         }
         $inserts=[];
@@ -77,7 +77,7 @@ class IncomeController extends Controller
     public function post_single(PostIncomeSingleRequest $request)
     {
         $validated = $request->validated();
-        $client=Client::where('client_nip',$validated['client_nip']);
+        $client=Client::where('client_nip',$validated['client_nip'])->first();
         if(!$client){
             return new ErrorResource([
                 'message' => 'Invalid data',
@@ -98,30 +98,19 @@ class IncomeController extends Controller
                 'status_code' => 401
             ]);
         }
-       $month=NULL;
+        $month=0;
         if(isset($_GET["month"])&& $_GET["month"]>=1&&$_GET["month"]<13) $month=$_GET["month"];
-        $month2=NULL;
-        if(isset($_GET["month2"])&& $_GET["month2"]>=1&&$_GET["month2"]<13) $month2=$_GET["month2"];
-        if(!$month2)$month2=$month;
-        if(!$month){
-            $month=1;
-            $month2=12;
-        }
-        $year=NULL;
+        $year=0;
         if(isset($_GET["year"])) $year=$_GET["year"];
-        if(!$year) $year=date('Y');
-        $client=NULL;
-        $invoices=null;
-        if(isset($_GET["client"])){
-            $client=$_GET["client"];
-            $invoices=Invoice::where('client_nip',$client)->orderBy('name','ASC')->limit(100)->get();
-        }else{
-            $invoices=Invoice::whereYear('date',$year)->whereMonth('date','>=',$month)->whereMonth('date','<=',$month2)
-            ->orderBy('name','ASC')->limit(100)->get();
-        }
+        $client=0;
+        if(isset($_GET["client"])) $client=$_GET["client"];
+        $invoices=Invoice::with('client:name,client_nip')
+            ->where('client_nip',($client?'=':'!='),$client)
+            ->whereYear('date',($year?'=':'!='),$year)
+            ->whereMonth('date',($month?'=':'!='),$month)
+            ->orderBy('date','DESC')
+            ->limit(100)->get();
         return response()->json($invoices,200);
-        
-        
     }
     public function patch(PatchIncomeRequest $request, Invoice $invoice){
         $validated=$request->validated();

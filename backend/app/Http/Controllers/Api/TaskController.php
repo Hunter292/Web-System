@@ -18,7 +18,7 @@ class TaskController extends Controller
 {
     public function get_new(Request $request){
         $user=$request->user();
-        $tasks=Task::where('employee_id',$user->employee_id)->where('status',0)->count();
+        $tasks=$user->assignedTasks()->wherePivot('status',0)->count();
         return response()->json($tasks,200);
     }
     public function get_of_worker(Request $request){
@@ -29,15 +29,29 @@ class TaskController extends Controller
         if(isset($_GET["month"])&&$_GET["month"]>=1&&$_GET["month"]<13) $month=$_GET["month"];
         $year=0;
         if(isset($_GET["year"])) $year=$_GET["year"];
-        $tasks=Task::with("employee:name, employee_id")
-            ->with('client:name,client_id')
-            ->where('employee_id',$user->employee_id)
-            ->wherePivot('status',($status?'<':'='),3)
+        $sub_query=DB::table('task_worker')
+                    ->join('zadanie', 'zadanie.task_id', '=', 'task_worker.task_id')
+                    ->where('zadanie.employee_id', $user->employee_id)
+                    ->where('task_worker.status', ($status?'<':'='), 3)
+                    ->select('task_worker.task_id')
+                    ->distinct();
+        $tasks=$user->tasks()
+            ->with('client:name,client_nip')
+            ->whereIn('task_id',$sub_query)
             ->whereMonth('date',$month?'=':'>',$month)
             ->whereYear('date',$year?'=':'>',$year)
             ->orderBy('task_id',($status?'ASC':'DESC'))
             ->limit(100)
-           ->get();
+            ->get();
+        // $tasks=Task::with("employee:name, employee_id")
+        //     ->with('client:name,client_id')
+        //     ->where('employee_id',$user->employee_id)
+        //     ->wherePivot('status',($status?'<':'='),3)
+        //     ->whereMonth('date',$month?'=':'>',$month)
+        //     ->whereYear('date',$year?'=':'>',$year)
+        //     ->orderBy('task_id',($status?'ASC':'DESC'))
+        //     ->limit(100)
+        //    ->get();
         return response()->json($tasks,200);
         
     }
@@ -49,9 +63,9 @@ class TaskController extends Controller
         if(isset($_GET["month"])&&$_GET["month"]>=1&&$_GET["month"]<13) $month=$_GET["month"];
         $year=0;
         if(isset($_GET["year"])) $year=$_GET["year"];
-        $tasks=Task::with("employee:name, employee_id")
-            ->with('client:name,client_id')
-            ->wherePivot('employee_id',$user->employee_id)
+        $tasks=$user->assignedTasks()
+            ->with('client:name,client_nip')
+            ->with("employee:name,employee_id")
             ->wherePivot('status',($status?'<':'='),3)
             ->whereMonth('date',$month?'=':'>',$month)
             ->whereYear('date',$year?'=':'>',$year)
@@ -79,9 +93,17 @@ class TaskController extends Controller
                 'status_code' => 422
             ]);
         }
+
         DB::beginTransaction();
         try{
-            $task=Task::insert($validated);
+            $task=Task::create([
+                "date"=>date('Y-m-d'),
+                "deadline"=>$validated["deadline"],
+                "employee_id"=>$user->employee_id,
+                "client_nip"=>$validated["client_nip"],
+                "description"=>$validated["description"],
+                "priority"=>$validated["priority"],
+            ]);
             foreach($validated['victims'] as $victim){
                 $task->workers()->attach($victim,[
                     'status'=>0
@@ -89,19 +111,19 @@ class TaskController extends Controller
             }
             DB::commit();
             return new SuccessResource([
-            '   message' => 'Added task successfully'
+                'message' => 'Added task successfully'
             ]);
 
         }catch(Exception $e){
             DB::rollBack();
             return new ErrorResource([
-                'message' => 'Server error',
+                'message' => $e->getMessage(),
                 'status_code' => 422
             ]);
         }
     }
     public function delete(Request $request, Task $task){
-        if($task->employee()!=$request->user()){
+        if($task->employee!=$request->user()){
             return new ErrorResource([
                 'message' => 'Unauthorized',
                 'status_code' => 401
@@ -114,7 +136,7 @@ class TaskController extends Controller
     }
     public function patch(PatchTaskRequest $request, Task $task){
         $validated=$request->validated();
-        if($task->employee()!=$request->user()){
+        if($task->employee!=$request->user()){
             return new ErrorResource([
                 'message' => 'Unauthorized',
                 'status_code' => 401

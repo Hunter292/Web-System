@@ -25,11 +25,11 @@ class PatchTaskRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'date'=>['sometimes',Rule::date()->format('Y-m-d')],
+            'date'=>'missing',
             'deadline'=>['sometimes',Rule::date()->format('Y-m-d')],
             'priority'=>'sometimes|boolean',
             'description'=>'sometimes|string',
-            'client_nip'=>'sometimes|string',
+            'client_nip'=>'sometimes|string|max:50',
             'employee_id'=>'missing',
         ];
     }

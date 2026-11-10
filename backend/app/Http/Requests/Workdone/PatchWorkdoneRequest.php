@@ -26,8 +26,8 @@ class PatchWorkdoneRequest extends FormRequest
         return [
             'client_nip' => 'sometimes|string|max:255',
             'work_type' => 'sometimes|string|max:255',
-            'time_start' => 'sometimes|string',
-            'time_finish' => 'sometimes|string',
+            'time_start' => ['sometimes',Rule::date()->format('H-i')],
+            'time_finish' => ['sometimes',Rule::date()->format('H-i')],
             'date' => ['sometimes',Rule::date()->format('Y-m-d')],
             'notes' => 'sometimes|string',
             'employee_id'=>'missing',

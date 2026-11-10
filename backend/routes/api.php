@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\ClientController;
 use App\Http\Controllers\Api\ClientMailController;
 use App\Http\Controllers\Api\IncomeController;
+use App\Http\Controllers\Api\MailerController;
 use App\Http\Controllers\Api\WorkDoneController;
 use App\Http\Controllers\Api\StaffController;
 use App\Http\Controllers\Api\TaskController;
@@ -55,4 +56,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/task/members/{task}/{employee}',[TaskMembersController::class,'post']);
     Route::patch('/task/members/{task}/{employee}',[TaskMembersController::class,'patch']);
     Route::delete('/task/members/{task}/{employee}',[TaskMembersController::class,'delete']);
+
+    Route::get('/mailer',[MailerController::class,'get_report']);
+    Route::get('/mailer/emails',[MailerController::class,'get_report_emails']);
+
+    Route::post('/mailer',[MailerController::class,'post']);
+
 });

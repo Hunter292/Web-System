@@ -39,7 +39,7 @@ class ClientController extends Controller
         $sub_sql.=$get;
         $sub_sql.=" GROUP BY client_nip";
         //assemble the main query
-        $sql="SELECT client_nip,name, sum(amount)/hourss.hours as rate FROM klient JOIN faktura USING(client_nip) JOIN 
+        $sql="SELECT client_nip,name, sum(amount/hourss.hours) as rate FROM klient JOIN faktura USING(client_nip) JOIN 
         ($sub_sql) as hourss using(client_nip)";
         $get="";
         if($month&&$month2) $get.=" WHERE Month(date) BETWEEN :month1 AND :month12";
@@ -47,7 +47,7 @@ class ClientController extends Controller
         if(!$get&&$year) $get.=" WHERE Year(date)=:year1";
         elseif($year)$get.=" AND Year(date)=:year";
         $sql.=$get;
-        $sql.=" GROUP BY client_nip ORDER BY rate desc";
+        $sql.=" GROUP BY client_nip,name ORDER BY rate desc";
         $bindings=[];
 
         if($month){
@@ -88,7 +88,7 @@ class ClientController extends Controller
         elseif($month) $get.=" AND Month(date)=:month";
         if($year) $get.=" AND Year(date)=:year";
         $sql.=$get;
-        $sql.=" GROUP BY work_type,pracownik.email ORDER BY pracownik.name, work_type";
+        $sql.=" GROUP BY work_type,pracownik.name,pracownik.email ORDER BY pracownik.name, work_type";
 
         $bindings=[];
         $bindings['nip']=$client->client_nip;

@@ -58,10 +58,17 @@ class WorkDoneController extends Controller
         ]);
     }
     public function get(Request $request){
+        $date=0;
+        if(isset($_GET["date"])) $date=$_GET["date"];
+        $client='';
+        if(isset($_GET["id"])) $client=$_GET["id"];
         $user=$request->user();
-        $work=$user->works()->with('client:name,client_nip')->orderBy('date','DESC')->orderBy('work_id','DESC')->limit(100)->get();
-        if(isset($_GET['id']))$work=$work->where('client_nip',$_GET['id']);
-        if(isset($_GET['date']))$work=$work->where('date',$_GET['date']);
+        $work=$user->works()->with('client:name,client_nip')
+                ->where('date',($date?'=':'!='),$date)
+                ->where('client_nip',($client?'=':'!='),$client)
+                ->orderBy('date','DESC')
+                ->orderBy('work_id','DESC')
+                ->limit(100)->get();
         return response()->json($work,200);
     }
 

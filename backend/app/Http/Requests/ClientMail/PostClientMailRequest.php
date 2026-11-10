@@ -24,7 +24,6 @@ class PostClientMailRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'client_nip' => 'required|string',
             'email' => 'required|email|max:255',
             
         ];
