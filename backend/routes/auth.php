@@ -3,6 +3,8 @@
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Auth\OTPController;
 use App\Http\Controllers\Api\Auth\PasswordResetController;
+use GuzzleHttp\Psr7\Request;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Route;
 
 
@@ -14,9 +16,6 @@ Route::post('/login', [AuthController::class, 'login']);
 // Route::post('/send-otp', [OTPController::class, 'sendOTP']);
 // Route::post('/verify-otp', [OTPController::class, 'verifyOTP']);
 
-// // Password reset routes
-// Route::post('/forgot-password', [PasswordResetController::class, 'forgotPassword']);
-// Route::post('/reset-password', [PasswordResetController::class, 'resetPassword']);
 
 //Protected routes
 Route::middleware('auth:sanctum')->group(function () {
@@ -24,3 +23,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/logout', [AuthController::class, 'logout']);
     Route::get('/user', [AuthController::class, 'user']);
 });
+Route::post('/forgot-password', [AuthController::class,'forgot_password'])->name('password.email');
+Route::post('/reset-password', [AuthController::class,'reset_password'])->name('password.reset');

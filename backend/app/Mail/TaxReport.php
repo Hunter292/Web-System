@@ -34,7 +34,7 @@ class TaxReport extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            from: new Address('kacper05112004@gmail.com',$this->employee->name),
+            from: new Address(getenv('MAIL_USERNAME'),$this->employee->name),
             replyTo: [
                 new Address($this->employee->email,$this->employee->name),
             ],

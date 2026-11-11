@@ -11,9 +11,12 @@ use App\Http\Resources\ErrorResource;
 use App\Http\Resources\SuccessResource;
 use App\Http\Resources\User\UserResource;
 use App\Models\Employee;
+use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -69,7 +72,45 @@ class AuthController extends Controller
             'message' => 'Logged out successfully'
         ]);
     }
-
+    public function forgot_password(Request $request){
+        $request->validate(['email' => 'required|email']);
+ 
+        $status = Password::sendResetLink(
+            $request->only('email')
+        );
+        return new SuccessResource([
+            'message' => 'Email został wysłany'
+        ]);
+        // return $status === Password::ResetLinkSent
+        //     ? back()->with(['status' => __($status)])
+        //     : back()->withErrors(['email' => __($status)]);
+    }
+    public function reset_password(Request $request){
+        $request->validate([
+        'token' => 'required',
+        'email' => 'required|email',
+        'password' => 'required|min:8|confirmed',
+    ]);
+ 
+    $status = Password::reset(
+        $request->only('email', 'password', 'password_confirmation', 'token'),
+        function (Employee $user, string $password) {
+            $user->forceFill([
+                'password' => password_hash(hash_hmac("sha256", $password, getenv("PEPPER")),PASSWORD_ARGON2ID)
+            ]);
+ 
+            $user->save();
+ 
+            event(new PasswordReset($user));
+        }
+    );
+     return new SuccessResource([
+            'message' => 'Hasło zresetowane'
+        ]);
+    // return $status === Password::PasswordReset
+    //     ? redirect()->route('login')->with('status', __($status))
+    //     : back()->withErrors(['email' => [__($status)]]);
+    }
 
 //The user() function retrieves the authenticated user's profile data using their Bearer token.
 

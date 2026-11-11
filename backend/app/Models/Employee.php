@@ -2,6 +2,8 @@
  
 namespace App\Models;
 
+use App\Notifications\ResetPasswordNotification;
+use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -21,7 +23,7 @@ class Employee extends Authenticatable
     protected $fillable = ['name', 'email', 'password', 'admin'];
  
     protected $hidden = ['password'];
-    use Notifiable;
+    use Notifiable, CanResetPassword;
     protected function casts(): array
     {
         return [
@@ -50,5 +52,11 @@ class Employee extends Authenticatable
     {
         return $this->belongsToMany(Task::class, 'task_worker', 'employee_id', 'task_id')
             ->withPivot('status');
+    }
+
+     public function sendPasswordResetNotification($token)
+    {
+        $url = 'http://localhost:4200/reset-password/'.$token;
+        $this->notify(new ResetPasswordNotification($url));
     }
 }
