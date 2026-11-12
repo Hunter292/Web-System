@@ -11,9 +11,11 @@ use App\Http\Resources\ErrorResource;
 use App\Http\Resources\SuccessResource;
 use App\Http\Resources\User\UserResource;
 use App\Models\Employee;
+use App\Notifications\SendOtpNotification;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
@@ -50,6 +52,44 @@ class AuthController extends Controller
                 'status_code' => 401
             ]);
         }
+        $token=rand(100000, 999999);
+        $user=Employee::where('email',$validated['email'])->first();
+        $user->update([
+            "otp_token"=>$token,
+            "token_life"=>now()->addMinutes(10)
+        ]);
+        $user->notify(new SendOtpNotification($token));
+        return new SuccessResource([
+            'message' => 'Proced to second step'
+        ]);
+        // $request->session()->regenerate();
+        // $user = Auth::user();
+        // return response()->json([
+        //    'id' => $user->employee_id,
+        //     'email' => $user->email,
+        //     'name' => $user->name,
+        //     'admin'=>$user->admin,
+        //     'time' =>date("Y-m-d H:i:s"),
+        //     'message' => 'User authenticated successfully',
+        // ]);
+    }
+    public function auth2F(Request $request){
+        $validated = $request->validated();
+
+        $validated['password']=hash_hmac("sha256", $validated["password"], getenv("PEPPER"));
+        if (!Auth::attempt($validated)) {
+            return new ErrorResource([
+                'message' => 'Invalid credentials',
+                'status_code' => 401
+            ]);
+        }
+        $user=Employee::where('email',$validated['email'])->first();
+        if($user->token!=$validated['token'] || $user->token_life->isPast()){
+             return new ErrorResource([
+                'message' => 'Invalid otp',
+                'status_code' => 401
+            ]);
+        }
         $request->session()->regenerate();
         $user = Auth::user();
         return response()->json([
@@ -60,8 +100,8 @@ class AuthController extends Controller
             'time' =>date("Y-m-d H:i:s"),
             'message' => 'User authenticated successfully',
         ]);
-    }
 
+    }
     public function logout(Request $request)
     {
         Auth::logout();
@@ -87,10 +127,10 @@ class AuthController extends Controller
     }
     public function reset_password(Request $request){
         $request->validate([
-        'token' => 'required',
-        'email' => 'required|email',
-        'password' => 'required|min:8|confirmed',
-    ]);
+            'token' => 'required',
+            'email' => 'required|email',
+            'password' => 'required|min:8|confirmed',
+        ]);
  
     $status = Password::reset(
         $request->only('email', 'password', 'password_confirmation', 'token'),
