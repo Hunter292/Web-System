@@ -26,8 +26,8 @@ class PostWorkdoneRequest extends FormRequest
         return [
             'client_nip' => 'required|string|max:50',
             'work_type' => 'required|string|max:255',
-            'time_start' => ['required',Rule::date()->format('H-i')],
-            'time_finish' => ['required',Rule::date()->format('H-i')],
+            'time_start' => ['required',Rule::date()->format('H:i')],
+            'time_finish' => ['required',Rule::date()->format('H:i')],
             'date' => ['required',Rule::date()->format('Y-m-d')],
             'notes' => 'sometimes|string',
 

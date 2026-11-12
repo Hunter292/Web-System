@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 
 // Public routes
 Route::post('/login', [AuthController::class, 'login']);
-Route::delete('/login/2F', [AuthController::class, 'auth2F']);
+Route::post('/login/2F', [AuthController::class, 'auth2F']);
 
 // OTP routes
 // Route::post('/send-otp', [OTPController::class, 'sendOTP']);

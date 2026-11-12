@@ -20,7 +20,7 @@ class Employee extends Authenticatable
     const CREATED_AT = null;
     const UPDATED_AT = 'updated';
  
-    protected $fillable = ['name', 'email', 'password', 'admin'];
+    protected $fillable = ['name', 'email', 'password', 'admin','otp','token_life'];
  
     protected $hidden = ['password'];
     use Notifiable, CanResetPassword;

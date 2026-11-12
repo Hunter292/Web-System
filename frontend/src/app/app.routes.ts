@@ -1,3 +1,34 @@
 import { Routes } from '@angular/router';
+import { Home } from './home/home';
+import { Login } from './login/login';
+// import { E404 } from './e404/e404';
+// import { WorkDone } from './work-done/work-done';
+// import { Income } from './income/income';
+// import { Oplacalnosc } from './oplacalnosc/oplacalnosc';
+// import { Staff } from './staff/staff';
+// import { Worker } from './worker/worker';
+// import { UserManagement } from './user-management/user-management';
+// import { Mailer } from './mailer/mailer';
+// import { Profile } from './profile/profile';
+// import { Tasks } from './tasks/tasks';
+// import { PasswordReset } from './password-reset/password-reset';
 
-export const routes: Routes = [];
+export const routes: Routes = [
+    {path:'', component: Home,data: { hideNavbar: true }},
+    {path:'home', component: Home,data: { hideNavbar: true }},
+    {path:'login', component: Login,data: { hideNavbar: true }},
+    // {path:'timer', component: WorkDone},
+    // {path:'faktury', component: Income},
+    // {path:'oplacalnosc', component: Oplacalnosc},
+    // {path:'pracownicy', component: Staff},
+    // {path:'pracownicy/:id', component: Worker},
+    // {path:'kadry', component: UserManagement},
+    // {path:'wyliczenia', component: Mailer},
+    // {path:'profil', component: Profile},
+    // {path:'zadania', component: Tasks},
+    // {path: 'reset-password/:token', component: PasswordReset,data:{ hideNavbar: true }},
+
+
+    // {path:'**', component: E404,data: { hideNavbar: true }}
+
+];

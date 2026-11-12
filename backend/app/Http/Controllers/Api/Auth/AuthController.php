@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Auth;
 
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\Login2FUserRequest;
 use App\Http\Requests\Auth\LoginUserRequest;
 use App\Http\Requests\Auth\RegisterUserRequest;
 use App\Http\Resources\User\AuthResource;
@@ -12,6 +13,7 @@ use App\Http\Resources\SuccessResource;
 use App\Http\Resources\User\UserResource;
 use App\Models\Employee;
 use App\Notifications\SendOtpNotification;
+use Carbon\Carbon;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -55,25 +57,26 @@ class AuthController extends Controller
         $token=rand(100000, 999999);
         $user=Employee::where('email',$validated['email'])->first();
         $user->update([
-            "otp_token"=>$token,
+            "otp"=>$token,
             "token_life"=>now()->addMinutes(10)
         ]);
-        $user->notify(new SendOtpNotification($token));
-        return new SuccessResource([
-            'message' => 'Proced to second step'
-        ]);
-        // $request->session()->regenerate();
-        // $user = Auth::user();
-        // return response()->json([
-        //    'id' => $user->employee_id,
-        //     'email' => $user->email,
-        //     'name' => $user->name,
-        //     'admin'=>$user->admin,
-        //     'time' =>date("Y-m-d H:i:s"),
-        //     'message' => 'User authenticated successfully',
+        $user->save();
+        // $user->notify(new SendOtpNotification($token));
+        // return new SuccessResource([
+        //     'message' => 'Proced to second step'
         // ]);
+        $request->session()->regenerate();
+        $user = Auth::user();
+        return response()->json([
+           'id' => $user->employee_id,
+            'email' => $user->email,
+            'name' => $user->name,
+            'admin'=>$user->admin,
+            'time' =>date("Y-m-d H:i:s"),
+            'message' => 'User authenticated successfully',
+        ]);
     }
-    public function auth2F(Request $request){
+    public function auth2F(Login2FUserRequest $request){
         $validated = $request->validated();
 
         $validated['password']=hash_hmac("sha256", $validated["password"], getenv("PEPPER"));
@@ -84,7 +87,7 @@ class AuthController extends Controller
             ]);
         }
         $user=Employee::where('email',$validated['email'])->first();
-        if($user->token!=$validated['token'] || $user->token_life->isPast()){
+        if($user->otp!=$validated['otp'] || Carbon::parse($user->token_life)->isPast()){
              return new ErrorResource([
                 'message' => 'Invalid otp',
                 'status_code' => 401
