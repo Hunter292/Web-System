@@ -7,4 +7,3 @@ storage/*.log
 .gitignore
 tests/
 *.md
-docker/
