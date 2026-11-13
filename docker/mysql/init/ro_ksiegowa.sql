@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 16, 2026 at 01:00 PM
+-- Generation Time: Nov 12, 2026 at 10:03 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -37,7 +37,18 @@ CREATE TABLE `email_client` (
 -- Dumping data for table `email_client`
 --
 
-
+INSERT INTO `email_client` (`email_id`, `client_nip`, `email`) VALUES
+(1, '9371030253', 'energo@test.com'),
+(2, '9371030253', 'energo@test.com'),
+(3, '9371030253', 'energo2@test.com'),
+(4, '9371030253', 'energo3@test.com'),
+(6, '9371030253', 'energo4@test.com'),
+(7, '9371030253', 'energo5@test.com'),
+(8, '1080028106', 'jadawel@jad.com'),
+(9, '1080028106', 'jadawel2@test.com'),
+(10, '5273165607', 'kacper05112004@gmail.com'),
+(11, '5273165607', 'kacpercwiek@tutamail.com'),
+(13, '5273165607', 'hunter292@tutanota.com');
 
 -- --------------------------------------------------------
 
@@ -54,7 +65,37 @@ CREATE TABLE `email_report` (
 -- Dumping data for table `email_report`
 --
 
-
+INSERT INTO `email_report` (`report_id`, `email_id`) VALUES
+(1, 1),
+(2, 2),
+(6, 1),
+(8, 1),
+(11, 10),
+(11, 11),
+(31, 10),
+(32, 10),
+(33, 10),
+(33, 13),
+(34, 10),
+(34, 13),
+(35, 10),
+(35, 13),
+(36, 10),
+(36, 13),
+(37, 10),
+(37, 13),
+(38, 10),
+(38, 13),
+(39, 10),
+(39, 13),
+(40, 13),
+(46, 10),
+(47, 10),
+(49, 10),
+(50, 10),
+(51, 10),
+(51, 13),
+(52, 10);
 
 -- --------------------------------------------------------
 
@@ -73,6 +114,11 @@ CREATE TABLE `faktura` (
 -- Dumping data for table `faktura`
 --
 
+INSERT INTO `faktura` (`faktura_id`, `client_nip`, `amount`, `date`) VALUES
+
+(5, '9371030253', 16000, '2026-05-28'),
+(8, '5273165607', 1000, '2026-05-28'),
+(25, '1080028106', 500, '2026-05-29');
 
 
 -- --------------------------------------------------------
@@ -92,58 +138,64 @@ CREATE TABLE `klient` (
 
 INSERT INTO `klient` (`client_nip`, `name`) VALUES
 ('0', 'wewnętrzne'),
+('1', 'klient11'),
 ('1080028106', 'JADAWEL UNITED COMPANY FOR MILITARY SUPPLIES SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ ODDZIAŁ W POLSCE'),
-('1132003579', 'La Maison KATARZYNA KOSSACKA'),
-('1132995888', 'FEUTECHNIK SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ'),
-('1133001878', 'GALAPAGOS FILMS SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ'),
-('1133129101', 'FUNDACJA W STRONĘ JUTRA'),
-('1133179889', 'HANDEL MATERIAŁAMI SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ'),
-('1180253469', 'ZDZISŁAW WIŚNIEWSKI \"Z.W.\" - FIRMA WIŚNIEWSKI; Zdzisław Wiśniewski CENTRUM DETEKTYWISTYCZNE INFORMACJI JAWNEJ'),
-('1251329146', 'ZAKŁAD POLIGRAFICZNY KOSSACKI PACK SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ'),
-('5210124544', '\"SABUR\" - SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ'),
-('5211022567', 'NASH CONCEPT GROUP Piotr Augustyniak'),
-('5213445409', 'GALAPAGOS SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ'),
-('5214004707', 'SHOOTME SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ'),
-('5214088466', 'ASPERITAS SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ'),
-('5214145655', 'FUNDACJA SZTUKA WRAŻLIWOŚCI'),
-('5223048182', 'COLUMBUS INDUSTRIES SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ'),
-('5223050078', 'AMZ PROPERTIES SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ'),
-('5223128389', 'HYBRID ADTECH SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ'),
-('5242388387', 'KAMEN POLSKA SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ'),
-('5242816452', 'NOT BAD SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ'),
-('5243070687', 'MILLENNIUM INVEST SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ'),
-('5252280013', 'IMPLANTCAST POLSKA SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ'),
-('5252731415', 'RG BUD SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ'),
-('5252733710', 'RG BUD SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ SPÓŁKA KOMANDYTOWA'),
-('5252866859', 'SPACE CHANGER SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ'),
-('5252900987', 'WSZYSTKO TO JEDNO SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ'),
-('5252912714', 'GL BUD SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ'),
-('5252926946', 'GM MYJNIE SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ'),
-('5253031200', 'MYFACE AR SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ'),
-('5270103698', 'BIUROMAX SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ'),
-('5271523936', 'TOMASZ PARDO CENTRUM SZKOLENIOWO DORADCZE I ZARZĄDZANIA NIERUCHOMOŚCIAMI'),
-('5272625691', 'ART HAIR DESIGN SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ'),
-('5272654617', 'ART HAIR DESIGN SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ SPÓŁKA KOMANDYTOWA'),
-('5273164594', 'ZUMI CAFE SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ'),
+('2', 'klient2'),
+('3', 'klient3'),
 ('5273165607', 'ALEGA SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ'),
-('5322109202', 'RISEVO SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ'),
-('7010665779', 'GO4CONTROL SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ'),
-('7010868991', 'FUNDACJA PRZEKRÓJ'),
-('7011273277', 'MCPC SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ'),
-('7011276494', 'TERIOS SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ'),
-('7011278369', 'ELITE SECURITY SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ'),
-('7922073637', '\"Różowa Księgowa\" Justyna Kozłowska'),
-('8133940893', 'KORDIA LEGAL KRZYWAŃSKI ŚWISTAK SPÓŁKA KOMANDYTOWA'),
-('8341903291', 'WIGOR SPECJALISTYKA SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ'),
-('8371875903', 'WD PESTIGO SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ'),
-('8371875978', 'INVEST SERVICE 24 SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ'),
-('9371030253', '\"ENERGOPOL-TRADE-OPOLE\" SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ'),
-('9512359097', 'KORZYBSKI WOJCIŃSKI KANCELARIA RADCÓW PRAWNYCH SPÓŁKA KOMANDYTOWA'),
-('PL 5252877998', 'GOŁASZEWSKI AGRO SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ'),
-('PL 5253077277', 'CRSEL SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ'),
-('PL 5253083579', 'MIEJSCE DOBRA SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ'),
-('PL 5273176976', 'VICOSAFE SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ'),
-('PL 5342590705', 'COOKIE PRINTERS SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ');
+('9371030253', '\"ENERGOPOL-TRADE-OPOLE\" SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ');
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `migrations`
+--
+
+CREATE TABLE `migrations` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `migration` varchar(255) NOT NULL,
+  `batch` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `migrations`
+--
+
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
+(1, '0001_01_01_000000_create_users_table', 1),
+(2, '2026_10_26_202725_create_personal_access_tokens_table', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `password_reset_tokens`
+--
+
+CREATE TABLE `password_reset_tokens` (
+  `email` varchar(255) NOT NULL,
+  `token` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `personal_access_tokens`
+--
+
+CREATE TABLE `personal_access_tokens` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `tokenable_type` varchar(255) NOT NULL,
+  `tokenable_id` bigint(20) UNSIGNED NOT NULL,
+  `name` text NOT NULL,
+  `token` varchar(64) NOT NULL,
+  `abilities` text DEFAULT NULL,
+  `last_used_at` timestamp NULL DEFAULT NULL,
+  `expires_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -154,7 +206,7 @@ INSERT INTO `klient` (`client_nip`, `name`) VALUES
 CREATE TABLE `praca` (
   `work_id` int(11) NOT NULL,
   `employee_id` int(11) NOT NULL,
-  `client_nip` varchar(50) NOT NULL,
+  `client_nip` varchar(50) DEFAULT NULL,
   `work_type` varchar(255) NOT NULL,
   `date` date NOT NULL,
   `time_start` time NOT NULL,
@@ -166,7 +218,22 @@ CREATE TABLE `praca` (
 -- Dumping data for table `praca`
 --
 
-
+INSERT INTO `praca` (`work_id`, `employee_id`, `client_nip`, `work_type`, `date`, `time_start`, `time_finish`, `notes`) VALUES
+(1, 1, '1', 'wyliczenia', '2026-05-15', '12:00:00', '13:10:00', ''),
+(2, 1, '1', 'spotkanie', '2026-05-16', '11:00:00', '13:30:00', ''),
+(3, 3, '1', 'spotkanie', '2026-06-16', '11:00:00', '13:30:00', ''),
+(4, 3, '2', 'wyliczenia', '2026-07-16', '11:10:00', '13:30:00', ''),
+(7, 3, '1', 'spotkanie', '2026-07-08', '22:00:00', '23:00:00', ''),
+(8, 6, '1', 'Księgowanie faktur', '2026-07-18', '13:00:00', '14:00:00', ''),
+(9, 6, '2', 'Księgowanie WB', '2026-07-17', '14:00:00', '15:00:00', ''),
+(13, 6, '1', 'Analizy', '2026-07-19', '13:00:00', '14:30:00', ''),
+(14, 6, '1080028106', 'Księgowanie faktur', '2026-05-19', '12:00:00', '14:00:00', ''),
+(17, 6, '9371030253', 'Usługi kadrowe', '2026-05-21', '12:00:00', '14:00:00', ''),
+(20, 6, '9371030253', 'Podatki', '2026-07-27', '10:00:00', '14:00:00', ''),
+(24, 6, '5273165607', 'Księgowanie WB', '2026-08-12', '00:12:00', '05:00:00', ''),
+(25, 6, '9371030253', 'Księgowanie faktur', '2026-10-27', '00:00:00', '14:00:00', 'test dupy'),
+(26, 6, '9371030253', 'Usługi kadrowe', '2026-10-29', '00:00:00', '14:00:00', 'test dupy'),
+(29, 3, '9371030253', 'Analizy', '2026-11-12', '20:03:00', '22:03:00', 'test');
 
 -- --------------------------------------------------------
 
@@ -180,16 +247,20 @@ CREATE TABLE `pracownik` (
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `admin` tinyint(1) NOT NULL,
-  `updated` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `updated` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `otp` int(11) DEFAULT NULL,
+  `token_life` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `pracownik`
 --
 
-INSERT INTO `pracownik` (`employee_id`, `name`, `email`, `password`, `admin`, `updated`) VALUES
-
-(1, 'admin', 'admin@ksiegowa.com', '$argon2id$v=19$m=65536,t=4,p=1$RDZiWXhoY3AzNXRsNWpVYw$5O03CPfpRztK/RLqUZVp0TN9NDhKlIR57b0w4wXEtBQ', 2, '2026-08-15 13:59:32');
+INSERT INTO `pracownik` (`employee_id`, `name`, `email`, `password`, `admin`, `updated`, `otp`, `token_life`) VALUES
+(1, 'test', 'test_new', '$argon2id$v=19$m=65536,t=4,p=1$T1liRGdkaUFvSTJEdC5EVw$povXwOBi+E2PbDMe0X5Xe2XQP87UJLqZdr4c56afgDU', 2, '0000-00-00 00:00:00', NULL, NULL),
+(3, 'anna', 'hunter292@tutanota.com', '$argon2id$v=19$m=65536,t=4,p=1$MEtsNURndVptSEwwOEVvVw$nPIfOe8tRCKxEYn2BeevbQMjTLFWFaXV9kvrlfgW2wQ', 2, '2026-11-12 19:22:02', 779228, '2026-11-12 19:01:05'),
+(4, 'hanna', 'test2_new', '$argon2id$v=19$m=65536,t=4,p=1$T1liRGdkaUFvSTJEdC5EVw$povXwOBi+E2PbDMe0X5Xe2XQP87UJLqZdr4c56afgDU', 0, '0000-00-00 00:00:00', NULL, NULL),
+(6, 'admin', 'admin@rozowaksiegowa.pl', '$argon2id$v=19$m=65536,t=4,p=1$RDZiWXhoY3AzNXRsNWpVYw$5O03CPfpRztK/RLqUZVp0TN9NDhKlIR57b0w4wXEtBQ', 2, '2026-08-17 15:47:01', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -207,7 +278,9 @@ CREATE TABLE `rachunek` (
 -- Dumping data for table `rachunek`
 --
 
-
+INSERT INTO `rachunek` (`acc_number`, `client_nip`, `ZUS`) VALUES
+('1111', '9371030253', 1),
+('1234', '9371030253', 0);
 
 -- --------------------------------------------------------
 
@@ -228,6 +301,47 @@ CREATE TABLE `raport` (
 -- Dumping data for table `raport`
 --
 
+INSERT INTO `raport` (`report_id`, `employee_id`, `client_nip`, `date`, `content`, `notes`) VALUES
+(1, 6, '9371030253', '2026-08-12', 'VAT7: 123 okres: 2025;\nVAT7K: 1111 okres: 12-2025;\n', ''),
+(2, 6, '9371030253', '2026-08-12', 'VAT8: 123 okres: 2025;\nCIT 10Z: 555 okres: 11-2026;', NULL),
+(6, 6, '9371030253', '2026-08-12', 'VAT7: 100 okres: 2025;\nVAT7K: 1000.00 okres: 11-2025;\nCIT8: 200.95 okres: 12-2025;\n\n', ''),
+(8, 6, '9371030253', '2026-08-12', 'VAT7: 123 okres: 2025;ZUS: 200.00 rachunek: 1111 okres: 12-2025;', 'test spacji'),
+(11, 6, '5273165607', '2026-08-15', 'VAT7 - 123.00 zł termin płatności:2026-08-31;VAT8 - 1000.29 zł termin płatności:2026-09-30;PIT36 - 200.68 zł termin płatności:2026-08-31;', 'test notatki'),
+(31, 6, '5273165607', '2026-11-07', 'VAT7 - 123 zł termin płatności:2026-11-18;', 'est'),
+(32, 6, '5273165607', '2026-11-07', 'VAT7 - 123 zł termin płatności:2026-11-18;', 'test'),
+(33, 6, '5273165607', '2026-11-07', 'VAT7 - 123 zł termin płatności:2026-11-15;PIT36 - 100 zł termin płatności:2026-11-30;', 'test'),
+(34, 6, '5273165607', '2026-11-07', 'VAT7 - 123 zł termin płatności:2026-11-11;VAT8 - 100 zł termin płatności:2026-11-26;', 'ttttttttttttttttttttttttttt'),
+(35, 6, '5273165607', '2026-11-07', 'VAT9 - 222 zł termin płatności:2026-12-03;PIT8AR - 300 zł termin płatności:2026-11-15;', 'tset'),
+(36, 6, '5273165607', '2026-11-07', 'VAT9 - 200 zł termin płatności:2026-11-04;VAT7K - 200 zł termin płatności:2026-12-02;', 'tst'),
+(37, 6, '5273165607', '2026-11-07', 'VAT7 - 100 zł termin płatności:2026-11-11;', 'test'),
+(38, 6, '5273165607', '2026-11-07', 'VAT7 - 200 zł termin płatności:2026-12-02;', 'test'),
+(39, 6, '5273165607', '2026-11-07', 'VAT7 - 200 zł termin płatności:2026-11-18;', 'test'),
+(40, 6, '5273165607', '2026-11-07', 'VAT7 - 200 zł termin płatności:2026-11-17;', 'test'),
+(46, 6, '5273165607', '2026-11-07', 'VAT8 - 100 zł termin płatności:2026-11-11;', 'test'),
+(47, 6, '5273165607', '2026-11-07', 'VAT9 - 100 zł termin płatności:2026-11-11;VAT8 - 200 zł termin płatności:2026-11-28;', 'test'),
+(49, 6, '5273165607', '2026-11-07', 'VAT9 - 100 zł termin płatności:2026-11-17;', 'test'),
+(50, 6, '5273165607', '2026-11-07', 'PIT36 - 100 zł termin płatności:2026-11-18;', 'test'),
+(51, 6, '5273165607', '2026-11-07', 'VAT9 - 200 zł termin płatności:2026-11-10;', 'test'),
+(52, 6, '5273165607', '2026-11-07', 'VAT9 - 100 zł termin płatności:2026-11-25;', 'tst');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sessions`
+--
+
+CREATE TABLE `sessions` (
+  `id` varchar(255) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `ip_address` varchar(45) DEFAULT NULL,
+  `user_agent` text DEFAULT NULL,
+  `payload` longtext NOT NULL,
+  `last_activity` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `sessions`
+--
 
 
 -- --------------------------------------------------------
@@ -246,7 +360,21 @@ CREATE TABLE `task_worker` (
 -- Dumping data for table `task_worker`
 --
 
-
+INSERT INTO `task_worker` (`task_id`, `employee_id`, `status`) VALUES
+(5, 3, 1),
+(5, 6, 3),
+(6, 3, 0),
+(6, 6, 0),
+(7, 3, 0),
+(8, 6, 3),
+(9, 3, 0),
+(10, 3, 0),
+(10, 4, 0),
+(10, 6, 0),
+(11, 6, 0),
+(13, 1, 0),
+(13, 3, 0),
+(13, 6, 1);
 
 -- --------------------------------------------------------
 
@@ -270,32 +398,12 @@ CREATE TABLE `zadanie` (
 
 INSERT INTO `zadanie` (`task_id`, `date`, `deadline`, `employee_id`, `client_nip`, `description`, `priority`) VALUES
 (5, '2026-08-11 19:03:32', '2026-08-12', 6, '9371030253', 'test', 0),
-(6, '2026-08-11 19:08:32', '2026-08-13', 6, '7922073637', 'testse rrjroej dmwaomd awopekor fepsf', 0),
-(8, '2026-08-11 21:02:02', '2026-08-29', 6, '5210124544', 'with his cooking, he&amp;#039;s raising the worlds healthiest kid knowing everything he makes is homemade to the fullest, Congratulations, man!', 0),
-(10, '2026-08-11 22:38:23', '0000-00-00', 6, '5273165607', 'test czy w obu się pojawi', 0);
+(10, '2026-08-11 22:38:23', '0000-00-00', 6, '5273165607', 'test czy w obu się pojawi', 0),
+(11, '2026-08-16 19:33:50', '2026-08-17', 6, '9371030253', 'Wyliczyć podatki na wczoraj', 1),
+(13, '2026-11-09 23:00:00', '2026-11-19', 6, '0', 'interest rate', 0);
 
--- --------------------------------------------------------
 
---
--- Table structure for table `zmiana_hasla`
---
-
-CREATE TABLE `zmiana_hasla` (
-  `reset_id` int(11) NOT NULL,
-  `employee_id` int(11) NOT NULL,
-  `PIN` int(11) NOT NULL,
-  `date` timestamp NOT NULL DEFAULT current_timestamp(),
-  `used` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `zmiana_hasla`
---
-
-INSERT INTO `zmiana_hasla` (`reset_id`, `employee_id`, `PIN`, `date`, `used`) VALUES
-(1, 1, 123456, '2026-08-01 15:45:00', 0),
-(2, 1, 123456, '2026-07-08 15:46:40', 0);
-
+-
 --
 -- Indexes for dumped tables
 --
@@ -328,6 +436,27 @@ ALTER TABLE `klient`
   ADD PRIMARY KEY (`client_nip`);
 
 --
+-- Indexes for table `migrations`
+--
+ALTER TABLE `migrations`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `password_reset_tokens`
+--
+ALTER TABLE `password_reset_tokens`
+  ADD PRIMARY KEY (`email`);
+
+--
+-- Indexes for table `personal_access_tokens`
+--
+ALTER TABLE `personal_access_tokens`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `personal_access_tokens_token_unique` (`token`),
+  ADD KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`),
+  ADD KEY `personal_access_tokens_expires_at_index` (`expires_at`);
+
+--
 -- Indexes for table `praca`
 --
 ALTER TABLE `praca`
@@ -357,6 +486,14 @@ ALTER TABLE `raport`
   ADD KEY `client_nip` (`client_nip`);
 
 --
+-- Indexes for table `sessions`
+--
+ALTER TABLE `sessions`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `sessions_employee_id_index` (`user_id`),
+  ADD KEY `sessions_last_activity_index` (`last_activity`);
+
+--
 -- Indexes for table `task_worker`
 --
 ALTER TABLE `task_worker`
@@ -369,11 +506,6 @@ ALTER TABLE `task_worker`
 ALTER TABLE `zadanie`
   ADD PRIMARY KEY (`task_id`);
 
---
--- Indexes for table `zmiana_hasla`
---
-ALTER TABLE `zmiana_hasla`
-  ADD PRIMARY KEY (`reset_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -383,43 +515,50 @@ ALTER TABLE `zmiana_hasla`
 -- AUTO_INCREMENT for table `email_client`
 --
 ALTER TABLE `email_client`
-  MODIFY `email_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `email_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `faktura`
 --
 ALTER TABLE `faktura`
-  MODIFY `faktura_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=119;
+  MODIFY `faktura_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+
+--
+-- AUTO_INCREMENT for table `migrations`
+--
+ALTER TABLE `migrations`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `personal_access_tokens`
+--
+ALTER TABLE `personal_access_tokens`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `praca`
 --
 ALTER TABLE `praca`
-  MODIFY `work_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `work_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `pracownik`
 --
 ALTER TABLE `pracownik`
-  MODIFY `employee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `employee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `raport`
 --
 ALTER TABLE `raport`
-  MODIFY `report_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `report_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT for table `zadanie`
 --
 ALTER TABLE `zadanie`
-  MODIFY `task_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `task_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
---
--- AUTO_INCREMENT for table `zmiana_hasla`
---
-ALTER TABLE `zmiana_hasla`
-  MODIFY `reset_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables
@@ -448,8 +587,7 @@ ALTER TABLE `faktura`
 -- Constraints for table `praca`
 --
 ALTER TABLE `praca`
-  ADD CONSTRAINT `praca_ibfk_2` FOREIGN KEY (`employee_id`) REFERENCES `pracownik` (`employee_id`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `praca_ibfk_3` FOREIGN KEY (`client_nip`) REFERENCES `klient` (`client_nip`) ON DELETE NO ACTION ON UPDATE CASCADE;
+  ADD CONSTRAINT `praca_ibfk_3` FOREIGN KEY (`client_nip`) REFERENCES `klient` (`client_nip`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Constraints for table `rachunek`
