@@ -277,4 +277,52 @@ h1, h2, h3, .title-header, .section-title, .tile-btn, .button-standart, .button-
         @apply bg-primary-100 font-bold;
         border-bottom: var(--border-w) solid var(--ink);
     }
+
+    .data-table tbody tr:nth-child(even) {
+        @apply bg-stone-50;
+    }
+
+    .table-action {
+        @apply bg-amber-300 font-bold text-center cursor-pointer transition-colors duration-150;
+    }
+
+    .table-action:hover {
+        @apply bg-amber-400;
+    }
+
+    /* Action button variants & modals */
+    .button-warn {
+        @apply bg-amber-300 text-[#111111];
+    }
+
+    .button-warn:hover:not(:disabled) {
+        @apply bg-amber-400 text-[#111111];
+    }
+
+    .button-danger {
+        @apply bg-red-500 text-white;
+    }
+
+    .button-danger:hover:not(:disabled) {
+        @apply bg-red-700 text-white;
+    }
+
+    .button-neutral {
+        @apply bg-white text-[#111111];
+    }
+
+    .button-neutral:hover:not(:disabled) {
+        @apply bg-[#111111] text-white;
+    }
+
+    .modal-backdrop {
+        @apply fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50;
+    }
+
+    .modal-card {
+        @apply w-full max-w-xl bg-white text-center p-6 sm:p-8;
+        border: var(--border-w) solid var(--ink);
+        border-radius: 0;
+        box-shadow: 6px 6px 0 var(--ink);
+    }
 }

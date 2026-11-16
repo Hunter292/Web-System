@@ -7,7 +7,7 @@ import { E404 } from './e404/e404';
 // import { Oplacalnosc } from './oplacalnosc/oplacalnosc';
 // import { Staff } from './staff/staff';
 // import { Worker } from './worker/worker';
-// import { UserManagement } from './user-management/user-management';
+import { UserManagement } from './user-management/user-management';
 // import { Mailer } from './mailer/mailer';
 import { Profile } from './profile/profile';
 // import { Tasks } from './tasks/tasks';
@@ -22,7 +22,7 @@ export const routes: Routes = [
     // {path:'oplacalnosc', component: Oplacalnosc},
     // {path:'pracownicy', component: Staff},
     // {path:'pracownicy/:id', component: Worker},
-    // {path:'kadry', component: UserManagement},
+    {path:'kadry', component: UserManagement},
     // {path:'wyliczenia', component: Mailer},
     {path:'profil', component: Profile},
     // {path:'zadania', component: Tasks},
