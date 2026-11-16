@@ -9,7 +9,7 @@ import { E404 } from './e404/e404';
 // import { Worker } from './worker/worker';
 // import { UserManagement } from './user-management/user-management';
 // import { Mailer } from './mailer/mailer';
-// import { Profile } from './profile/profile';
+import { Profile } from './profile/profile';
 // import { Tasks } from './tasks/tasks';
 import { PasswordReset } from './password-reset/password-reset';
 
@@ -24,7 +24,7 @@ export const routes: Routes = [
     // {path:'pracownicy/:id', component: Worker},
     // {path:'kadry', component: UserManagement},
     // {path:'wyliczenia', component: Mailer},
-    // {path:'profil', component: Profile},
+    {path:'profil', component: Profile},
     // {path:'zadania', component: Tasks},
     {path: 'reset-password/:token', component: PasswordReset,data:{ hideNavbar: true }},
 

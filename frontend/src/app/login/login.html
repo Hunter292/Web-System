@@ -1,36 +1,36 @@
-<div class="container-standart mt-20">
+<div class="container-standart mt-12 sm:mt-20 max-w-xl">
     <h1 class="title-header">Rose System</h1>
     <main>
         @if(!reset && !auth2F){
         <form [formGroup]="loginForm" (ngSubmit)="log_in()">
             <input placeholder="email" type="email" formControlName="email" class="input-wide">
-            <div class="text-red-600" *ngIf="loginForm.get('email')?.hasError('email')">Invalid email</div>
+            <div class="msg-error" *ngIf="loginForm.get('email')?.hasError('email')">Invalid email</div>
             <input placeholder="hasło" type="password" formControlName="password" class="input-wide">
-            <div class="text-red-600" *ngIf="loginForm.get('password')?.hasError('minlength')">Password must be at least 5 characters long</div>
+            <div class="msg-error" *ngIf="loginForm.get('password')?.hasError('minlength')">Password must be at least 5 characters long</div>
             <br/>
             <button type="submit" [disabled]="loading" class="button-standart">Zaloguj się</button>
-            <div *ngIf="errorMessage" class="text-red-600">{{ errorMessage }}</div>
-            <div class="w-full sm:w-2/3 mt-3 mx-auto"><p class="text-primary-700 transition-colors duration-500 hover:text-amber-500 hover:cursor-pointer text-right" (click)="reset=true" >Nie pamiętam hasła</p></div>
+            <div *ngIf="errorMessage" class="msg-error">{{ errorMessage }}</div>
+            <div class="w-full sm:w-2/3 mt-3 mx-auto">
+                <p class="text-primary-800 font-semibold underline cursor-pointer text-right hover:text-primary-600" (click)="reset=true">Nie pamiętam hasła</p>
+            </div>
         </form>
-        }@if(reset){
-            <h3 class="text-2xl text-center mb-3">Reset hasła</h3>
-            <p class="text-l text-center mb-3">Mail z linkiem do resetu hasła zostanie wysłany na twoją skrzynkę email</p>
+        }
+        @if(reset){
+            <h3 class="section-title">Reset hasła</h3>
+            <p class="text-base text-center mb-3">Mail z linkiem do resetu hasła zostanie wysłany na twoją skrzynkę email</p>
             <input placeholder="email" type="email" id="reset_email" class="input-wide">
-            
             <br/>
             <button type="submit" (click)="send_reset()" [disabled]="loading" class="button-standart">Wyślij żądanie</button>
-            <div *ngIf="errorMessage" class="text-red-600">{{ errorMessage }}</div>
-            @if(message){<div>{{ message}}</div>}
+            <div *ngIf="errorMessage" class="msg-error">{{ errorMessage }}</div>
+            @if(message){<div class="msg-success">{{ message }}</div>}
         }
         @if(auth2F){
-            <h3 class="text-2xl text-center mb-3">Potwierdź logowanie</h3>
-            <p class="text-l text-center mb-3">Podaj kod wysłany na twoją skrzynkę email</p>
+            <h3 class="section-title">Potwierdź logowanie</h3>
+            <p class="text-base text-center mb-3">Podaj kod wysłany na twoją skrzynkę email</p>
             <input placeholder="kod" type="text" id="auth_code" class="input-wide">
-            
             <br/>
             <button type="submit" (click)="log_in2F()" [disabled]="loading" class="button-standart">Zaloguj się</button>
-            <div *ngIf="errorMessage" class="text-red-600">{{ errorMessage }}</div>
+            <div *ngIf="errorMessage" class="msg-error">{{ errorMessage }}</div>
         }
     </main>
-
 </div>

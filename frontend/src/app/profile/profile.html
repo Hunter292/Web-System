@@ -1,0 +1,28 @@
+<div class="container-standart">
+    <h1 class="title-header">Panel użytkownika</h1>
+    <main class="mt-8" id="worker_form">
+        <form [formGroup]="inputForm" (ngSubmit)="patch_worker()">
+            <div class="form-row">
+                <p class="form-label">Imię:</p>
+                <input type="text" [value]="data.name" disabled class="input-standart">
+            </div>
+            <div class="form-row">
+                <p class="form-label">Email:</p>
+                <input type="email" formControlName="email" class="input-standart">
+            </div>
+            <div class="form-row">
+                <p class="form-label">Nowe hasło (opcjonalne):</p>
+                <input type="text" formControlName="password" class="input-standart">
+            </div>
+            <div class="form-row">
+                <p class="form-label">Twoje hasło:</p>
+                <input type="text" formControlName="pass" class="input-standart">
+            </div>
+
+            <button [disabled]="loading" type="submit" class="button-standart">Zmień dane</button>
+
+            @if(error_message){<div class="msg-error">{{ error_message }}</div>}
+            @if(success_message){<div class="msg-success">{{ success_message }}</div>}
+        </form>
+    </main>
+</div>
