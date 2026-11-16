@@ -1,0 +1,197 @@
+<div class="container-standart">
+    <h1 class="title-header">Dodawanie faktur</h1>
+    <main class="space-y-10">
+        <section>
+            <h3 class="section-title">Dodaj excel z fakturami</h3>
+            <div class="flex flex-col items-center gap-4">
+                <input class="text-sm max-w-full" (change)="input_file($event)" type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+                <div class="flex justify-center items-center gap-3">
+                    <p class="font-semibold text-sm sm:text-base">Dodaj tylko klientów</p>
+                    <label class="toggler-wrapper style-1">
+                        <input type="checkbox" id="client_only">
+                        <div class="toggler-slider">
+                            <div class="toggler-knob"></div>
+                        </div>
+                    </label>
+                </div>
+                <button [disabled]="!file_ready" (click)="send_income()" class="button-standart !my-2">Prześlij</button>
+            </div>
+            @if(error_message){<div class="msg-error">{{ error_message }}</div>}
+            @if(success_message){<div class="msg-success">{{ success_message }}</div>}
+        </section>
+
+        <section>
+            <h3 class="section-title">Dodaj fakturę ręcznie</h3>
+            <form [formGroup]="inputForm" (ngSubmit)="file_income()">
+                <div class="form-row">
+                    <p class="form-label">Wybierz klienta:</p>
+                    <select id="client_pick" formControlName="client_nip" class="input-standart">
+                        @for(client of clients; track $index){
+                            <option value="{{client.client_nip}}">{{client.name}}</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-row">
+                    <p class="form-label">Wpisz kwotę:</p>
+                    <input type="number" step="0.01" formControlName="amount" class="input-standart">
+                </div>
+                <div class="form-row">
+                    <p class="form-label">Wybierz datę:</p>
+                    <input type="date" formControlName="date" class="input-standart">
+                </div>
+                <button [disabled]="loading" type="submit" class="button-standart">Prześlij</button>
+
+                @if(error_message){<div class="msg-error">{{ error_message }}</div>}
+                @if(success_message){<div class="msg-success">{{ success_message }}</div>}
+            </form>
+        </section>
+
+        <section>
+            <h3 class="section-title">Dodaj klienta ręcznie</h3>
+            <form [formGroup]="clientForm" (ngSubmit)="file_client()">
+                <div class="form-row">
+                    <p class="form-label">Wpisz nazwę:</p>
+                    <input type="text" formControlName="name" class="input-standart">
+                </div>
+                <div class="form-row">
+                    <p class="form-label">Wpisz NIP:</p>
+                    <input type="text" formControlName="client_nip" class="input-standart">
+                </div>
+                <button [disabled]="loading" type="submit" class="button-standart">Prześlij</button>
+
+                @if(error_message){<div class="msg-error">{{ error_message }}</div>}
+                @if(success_message){<div class="msg-success">{{ success_message }}</div>}
+            </form>
+        </section>
+
+        <section>
+            <h3 class="section-title">Przychody</h3>
+            <div class="flex flex-wrap justify-center items-center gap-4 mb-4">
+                <div class="flex items-center gap-2">
+                    <p class="font-semibold text-sm sm:text-base">Klient:</p>
+                    <select id="client_filter" (change)="get_income()" class="input-standart !w-52">
+                        <option value="">Wszyscy</option>
+                        @for(client of clients; track $index){
+                            <option value="{{client.client_nip}}">{{client.name}}</option>
+                        }
+                    </select>
+                </div>
+                <div class="flex items-center gap-2">
+                    <p class="font-semibold text-sm sm:text-base">Miesiąc:</p>
+                    <select id="month_filter" (change)="get_income()" class="input-standart !w-36">
+                        <option value=""></option>
+                        <option value="1">Styczeń</option>
+                        <option value="2">Luty</option>
+                        <option value="3">Marzec</option>
+                        <option value="4">Kwiecień</option>
+                        <option value="5">Maj</option>
+                        <option value="6">Czerwiec</option>
+                        <option value="7">Lipiec</option>
+                        <option value="8">Sierpień</option>
+                        <option value="9">Wrzesień</option>
+                        <option value="10">Październik</option>
+                        <option value="11">Listopad</option>
+                        <option value="12">Grudzień</option>
+                    </select>
+                </div>
+                <div class="flex items-center gap-2">
+                    <p class="font-semibold text-sm sm:text-base">Rok:</p>
+                    <input type="number" id="year_filter" (change)="get_income()" class="input-standart !w-28">
+                </div>
+            </div>
+
+            <div class="table-wrap max-w-3xl mx-auto">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Klient</th>
+                            <th class="w-32 text-right">Kwota</th>
+                            <th class="w-32">Data</th>
+                            <th class="w-24 text-center">Akcja</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for(work of income; track $index){
+                            <tr>
+                                <td>{{work.client.name}}</td>
+                                <td class="text-right">{{format_mula(work.amount)}}</td>
+                                <td>{{(work.date).substring(0,10)}}</td>
+                                <td (click)="Edit(work)" class="table-action">Edytuj</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section>
+            <h3 class="section-title">Zmień nazwę klienta</h3>
+            <div class="form-row">
+                <p class="form-label">Klient:</p>
+                <select id="client_patch" class="input-standart">
+                    <option value=""></option>
+                    @for(client of clients; track $index){
+                        <option value="{{client.client_nip}}">{{client.name}}</option>
+                    }
+                </select>
+            </div>
+            <div class="form-row">
+                <p class="form-label">Nowa nazwa:</p>
+                <input type="text" id="name_patch" class="input-standart">
+            </div>
+            <button [disabled]="loading" (click)="patch_client()" class="button-standart">Prześlij</button>
+
+            @if(error_message){<div class="msg-error">{{ error_message }}</div>}
+            @if(success_message){<div class="msg-success">{{ success_message }}</div>}
+        </section>
+
+        <section>
+            <h3 class="section-title">Usuń klienta</h3>
+            <div class="form-row">
+                <p class="form-label">Klient:</p>
+                <select id="client_delete" class="input-standart">
+                    <option value=""></option>
+                    @for(client of clients; track $index){
+                        <option value="{{client.client_nip}}">{{client.name}}</option>
+                    }
+                </select>
+            </div>
+            <button [disabled]="loading" (click)="delete_client()" class="button-standart button-danger">Usuń</button>
+
+            @if(error_message){<div class="msg-error">{{ error_message }}</div>}
+            @if(success_message){<div class="msg-success">{{ success_message }}</div>}
+        </section>
+    </main>
+
+    @if(edited_income){
+        <div class="modal-backdrop">
+            <div class="modal-card">
+                <h3 class="section-title">Wybierz czynność</h3>
+                <div class="table-wrap">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Klient</th>
+                                <th class="w-32 text-right">Kwota</th>
+                                <th class="w-32">Data</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{edited_income.client.name}}</td>
+                                <td class="text-right">{{format_mula(edited_income.amount)}}</td>
+                                <td>{{(edited_income.date).substring(0,10)}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="flex flex-wrap justify-center gap-3">
+                    <button [disabled]="loading" (click)="Patch(edited_income)" class="button-standart button-warn">Zmień</button>
+                    <button [disabled]="loading" (click)="Delete(edited_income)" class="button-standart button-danger">Usuń</button>
+                    <button [disabled]="loading" (click)="edited_income=null" class="button-standart button-neutral">Anuluj</button>
+                </div>
+                @if(error_message){<div class="msg-error">{{ error_message }}</div>}
+            </div>
+        </div>
+    }
+</div>
