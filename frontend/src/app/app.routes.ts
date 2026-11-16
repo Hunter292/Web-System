@@ -11,7 +11,7 @@ import { Login } from './login/login';
 // import { Mailer } from './mailer/mailer';
 // import { Profile } from './profile/profile';
 // import { Tasks } from './tasks/tasks';
-// import { PasswordReset } from './password-reset/password-reset';
+import { PasswordReset } from './password-reset/password-reset';
 
 export const routes: Routes = [
     {path:'', component: Home,data: { hideNavbar: true }},
@@ -26,7 +26,7 @@ export const routes: Routes = [
     // {path:'wyliczenia', component: Mailer},
     // {path:'profil', component: Profile},
     // {path:'zadania', component: Tasks},
-    // {path: 'reset-password/:token', component: PasswordReset,data:{ hideNavbar: true }},
+    {path: 'reset-password/:token', component: PasswordReset,data:{ hideNavbar: true }},
 
 
     // {path:'**', component: E404,data: { hideNavbar: true }}
