@@ -70,7 +70,7 @@ class UserController extends Controller
             ]);
         }
         if(isset($validated['email'])&& $validated['email']!=$employee->email){
-            $exists=Employee::where('email',$validated['email'])->andWhere('employee_id','!=',$employee->email)->count();
+            $exists=Employee::where('email',$validated['email'])->where('employee_id','!=',$employee->email)->count();
             if($exists){
                 return new ErrorResource([
                     'message' => 'Mail jest już zajęty',
@@ -78,7 +78,8 @@ class UserController extends Controller
                 ]);
             }
         }
-        if(isset($validated['password'])) $validated['password']=password_hash(hash_hmac("sha256", $validated["password"], getenv('PEPPER')),PASSWORD_ARGON2ID);
+        if(isset($validated['password'])&& $validated['password']) $validated['password']=password_hash(hash_hmac("sha256", $validated["password"], getenv('PEPPER')),PASSWORD_ARGON2ID);
+        else unset($validated['password']);
         $employee->update($validated);
         DB::table('sessions')
             ->where('user_id',$employee->employee_id)
@@ -92,7 +93,7 @@ class UserController extends Controller
         $user=$request->user();
         UserController::check_admin_pass($user,$validated['pass_admin']);
         if(isset($validated['email'])&& $validated['email']!=$user->email){
-            $exists=Employee::where('email',$validated['email'])->andWhere('employee_id','!=',$user->email)->count();
+            $exists=Employee::where('email',$validated['email'])->where('employee_id','!=',$user->email)->count();
             if($exists){
                 return new ErrorResource([
                     'message' => 'Mail jest już zajęty',
@@ -100,7 +101,8 @@ class UserController extends Controller
                 ]);
             }
         }
-        if(isset($validated['password'])) $validated['password']=password_hash(hash_hmac("sha256", $validated["password"], getenv('PEPPER')),PASSWORD_ARGON2ID);
+        if(isset($validated['password']) && $validated['password']) $validated['password']=password_hash(hash_hmac("sha256", $validated["password"], getenv('PEPPER')),PASSWORD_ARGON2ID);
+        else unset($validated['password']);
         $user->update($validated);
         if(isset($validated['password'])){
             DB::table('sessions')

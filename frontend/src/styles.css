@@ -37,10 +37,10 @@ h1, h2, h3, .title-header, .section-title, .tile-btn, .button-standart, .button-
 @layer components {
     /* Panels & headings */
     .container-standart {
-        @apply w-full sm:w-lg md:w-xl lg:w-3xl xl:w-5xl mx-auto bg-white text-center py-8 px-4 sm:p-10 text-base sm:text-lg;
+        @apply w-full sm:w-lg md:w-xl lg:w-3xl xl:w-5xl mx-auto bg-white text-center py-8 px-4 sm:p-10 text-base sm:text-lg mb-8;
         border: var(--border-w) solid var(--ink);
         border-radius: 0;
-        box-shadow: 4px 4px 0 var(--ink);
+        /*box-shadow: 4px 4px 0 var(--ink);*/
     }
 
     .title-header {
@@ -74,10 +74,13 @@ h1, h2, h3, .title-header, .section-title, .tile-btn, .button-standart, .button-
     }
 
     .input-standart:focus,
-    .input-wide:focus {
+    .input-wide:focus { 
+        /*@apply outline-primary-500 outline-1;*/
+        /*border: none;*/
+        border: var(--border-w) solid var(--color-primary-500);
         outline: none;
         background-color: #FFFFFF;
-        box-shadow: 3px 3px 0 var(--color-primary-500);
+        box-shadow: 3px 3px 3px var(--color-primary-300);
     }
 
     .input-standart:disabled,
@@ -90,7 +93,7 @@ h1, h2, h3, .title-header, .section-title, .tile-btn, .button-standart, .button-
         @apply py-2.5 px-8 my-5 font-semibold bg-primary-500 text-[#111111] cursor-pointer transition-colors duration-150;
         border: var(--border-w) solid var(--ink);
         border-radius: 0;
-        box-shadow: 3px 3px 0 var(--ink);
+        box-shadow: 2px 2px 0 var(--ink);
     }
 
     .button-standart:hover:not(:disabled) {
@@ -122,7 +125,7 @@ h1, h2, h3, .title-header, .section-title, .tile-btn, .button-standart, .button-
         @apply flex items-center justify-center min-h-22 px-4 py-4 font-bold text-lg sm:text-xl cursor-pointer transition-colors duration-150;
         border: var(--border-w) solid var(--ink);
         border-radius: 0;
-        box-shadow: 4px 4px 0 var(--ink);
+        box-shadow: 2px 2px 0 var(--ink);
     }
 
     .tile-btn--primary {
@@ -153,7 +156,7 @@ h1, h2, h3, .title-header, .section-title, .tile-btn, .button-standart, .button-
 
     .tile-btn:active {
         transform: translate(2px, 2px);
-        box-shadow: 2px 2px 0 var(--ink);
+        box-shadow: 1px 1px 0 var(--ink);
     }
 
     /* Header & navigation */
@@ -168,17 +171,26 @@ h1, h2, h3, .title-header, .section-title, .tile-btn, .button-standart, .button-
     }
 
     .site-nav {
-        @apply max-w-6xl mx-auto flex flex-wrap justify-center items-stretch;
+        @apply max-w-6xl mx-auto grid grid-cols-3 sm:grid-cols-5 grid-rows-2 sm:grid-rows-1
+        divide-x-2 divide-y-2 sm:divide-y-0
+        divide-dotted divide-primary-500 border-l-2 border-dotted border-primary-500;
+         /*flex flex-wrap justify-center items-stretch*/
+    }
+    .site-nav-admin {
+        @apply max-w-6xl mx-auto grid grid-cols-3 md:grid-cols-5 lg:grid-cols-9 grid-rows-3 md:grid-rows-2 lg:grid-rows-1 
+        divide-x-2 divide-y-2 lg:divide-y-0
+        divide-dotted divide-primary-500 border-l-2 border-dotted border-primary-500;
+        /*flex flex-wrap justify-center items-stretch*/
     }
 
     .site-nav-link {
         @apply flex-1 min-w-28 py-3.5 px-3 text-center text-sm sm:text-base font-semibold text-primary-300 cursor-pointer transition-colors duration-150;
-        border-right: 1px solid #3F3F46;
-        border-bottom: 1px solid #3F3F46;
+        /*border-right: 1px solid #3F3F46;
+        border-bottom: 1px solid #3F3F46;*/
     }
 
     .site-nav-link:first-child {
-        border-left: 1px solid #3F3F46;
+        /*border-left: 1px solid #3F3F46;*/
     }
 
     .site-nav-link:hover {
@@ -187,7 +199,7 @@ h1, h2, h3, .title-header, .section-title, .tile-btn, .button-standart, .button-
 
     /* Feedback messages */
     .msg-error {
-        @apply mt-3 p-2.5 text-sm sm:text-base font-semibold bg-red-50 text-red-700 max-w-md mx-auto;
+        @apply mt-3 p-2.5 text-sm sm:text-base font-semibold bg-red-50 text-red-700 sm:w-2/3 max-w-md mx-auto;
         border: var(--border-w) solid #B91C1C;
     }
 
@@ -346,10 +358,10 @@ h1, h2, h3, .title-header, .section-title, .tile-btn, .button-standart, .button-
 
     /* Clickable thick-bordered summary cards (used by staff / oplacalnosc) */
     .summary-card {
-        @apply mb-5 bg-white text-left cursor-pointer transition-transform duration-150;
+        @apply mb-5 bg-white text-left cursor-pointer transition-transform duration-250;
         border: var(--border-w) solid var(--ink);
         border-radius: 0;
-        box-shadow: 4px 4px 0 var(--ink);
+        box-shadow: 2px 2px 0 var(--ink);
     }
 
     .summary-card:hover {
@@ -358,7 +370,7 @@ h1, h2, h3, .title-header, .section-title, .tile-btn, .button-standart, .button-
     }
 
     .summary-card-head {
-        @apply px-4 py-3 text-lg sm:text-xl font-bold bg-amber-300 text-[#111111] transition-colors duration-150;
+        @apply px-4 py-3 text-lg sm:text-xl font-bold bg-amber-300 text-[#111111] transition-colors duration-250;
         border-bottom: var(--border-w) solid var(--ink);
         font-family: var(--font-display);
     }
@@ -368,12 +380,12 @@ h1, h2, h3, .title-header, .section-title, .tile-btn, .button-standart, .button-
     }
 
     .summary-card-grid {
-        @apply grid grid-cols-1 md:grid-cols-2;
+        @apply grid grid-cols-1 md:grid-cols-2 divide-y-2 divide-solid divide-primary-300;
     }
 
     .summary-card-item {
         @apply flex justify-between items-center gap-3 px-4 py-2 text-sm sm:text-base;
-        border-bottom: 1px solid #D6D3D1;
-        border-right: 1px solid #D6D3D1;
+        /*border-bottom: 1px solid #D6D3D1;
+        border-right: 1px solid #D6D3D1;*/
     }
 }

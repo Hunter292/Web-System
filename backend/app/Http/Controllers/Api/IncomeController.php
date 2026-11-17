@@ -30,6 +30,7 @@ class IncomeController extends Controller
         }
         //find clients not in the database and add them
         $clients=Client::get();
+        $clients2=[];
         $insert_nips=[];
         $new_nip_flag=true;
         foreach($input as $row){
@@ -40,9 +41,15 @@ class IncomeController extends Controller
                     break;
                 }
             }
+            foreach($clients2 as $nip){
+                if($row["NIP"]==$nip["client_nip"]){
+                    $new_nip_flag=false;
+                    break;
+                }
+            }
             if($new_nip_flag){
                 array_push($insert_nips,['client_nip'=>$row['NIP'],'name'=>$row["Kontrahent"]]);
-                array_push($clients,["client_nip"=>$row["NIP"]]);
+                array_push($clients2,["client_nip"=>$row["NIP"]]);
             }
         }
         
@@ -63,7 +70,7 @@ class IncomeController extends Controller
             Invoice::insert($inserts);
             DB::commit();
             return new SuccessResource([
-            '   message' => 'Added invoices successfully'
+            'message' => 'Added invoices successfully'
             ]);
         }catch(Exception $e){
             DB::rollBack();
