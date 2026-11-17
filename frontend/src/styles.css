@@ -323,6 +323,16 @@ h1, h2, h3, .title-header, .section-title, .tile-btn, .button-standart, .button-
         @apply bg-[#111111] text-white;
     }
 
+    .button-mint {
+        background-color: var(--accent-mint);
+        color: var(--ink);
+    }
+
+    .button-mint:hover:not(:disabled) {
+        background-color: var(--accent-mint-hover);
+        color: #FFFFFF;
+    }
+
     .modal-backdrop {
         @apply fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50;
     }
