@@ -4,7 +4,13 @@
     </IfModule>
 
     RewriteEngine On
-
+    <IfModule mod_headers.c>
+        SetEnvIf Origin "http(s)?://(www\.)?(hunter292.github.io|localhost:4200)$" AccessControlAllowOrigin=$0
+        Header add Access-Control-Allow-Origin %{AccessControlAllowOrigin}e env=AccessControlAllowOrigin
+        Header set Access-Control-Allow-Methods "GET, POST, OPTIONS, PATCH, DELETE"
+        Header set Access-Control-Allow-Headers "Content-Type, Authorization"
+        Header set Access-Control-Allow-Credentials true
+    </IfModule>
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]

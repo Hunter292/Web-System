@@ -1,0 +1,8 @@
+# Files executed inside Linux containers must keep LF endings, even when the
+# repo is checked out on Windows with core.autocrlf=true. A CRLF shebang
+# ("#!/bin/sh\r") makes execve fail with ENOENT: the container entrypoint dies
+# with "not found" (exit 127) and restart-loops.
+*.sh       text eol=lf
+*.envsh    text eol=lf
+Dockerfile text eol=lf
+*.conf     text eol=lf

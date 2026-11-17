@@ -1,0 +1,139 @@
+<div class="container-standart">
+    <h1 class="title-header">{{worker}}</h1>
+    <main class="space-y-8">
+        <section>
+            <div class="flex flex-wrap justify-center items-end gap-4 mb-2">
+                <div class="flex flex-col items-start gap-1">
+                    <p class="font-semibold text-sm">Miesiąc od:</p>
+                    <select id="month_filter" class="input-standart !w-36">
+                        <option value=""></option>
+                        <option value="1">Styczeń</option>
+                        <option value="2">Luty</option>
+                        <option value="3">Marzec</option>
+                        <option value="4">Kwiecień</option>
+                        <option value="5">Maj</option>
+                        <option value="6">Czerwiec</option>
+                        <option value="7">Lipiec</option>
+                        <option value="8">Sierpień</option>
+                        <option value="9">Wrzesień</option>
+                        <option value="10">Październik</option>
+                        <option value="11">Listopad</option>
+                        <option value="12">Grudzień</option>
+                    </select>
+                </div>
+                <div class="flex flex-col items-start gap-1">
+                    <p class="font-semibold text-sm">Miesiąc do:</p>
+                    <select id="month_filter-2" class="input-standart !w-36">
+                        <option value=""></option>
+                        <option value="1">Styczeń</option>
+                        <option value="2">Luty</option>
+                        <option value="3">Marzec</option>
+                        <option value="4">Kwiecień</option>
+                        <option value="5">Maj</option>
+                        <option value="6">Czerwiec</option>
+                        <option value="7">Lipiec</option>
+                        <option value="8">Sierpień</option>
+                        <option value="9">Wrzesień</option>
+                        <option value="10">Październik</option>
+                        <option value="11">Listopad</option>
+                        <option value="12">Grudzień</option>
+                    </select>
+                </div>
+                <div class="flex flex-col items-start gap-1">
+                    <p class="font-semibold text-sm">Rok:</p>
+                    <input type="number" id="year_filter" class="input-standart !w-28">
+                </div>
+                <div class="flex flex-col items-start gap-1">
+                    <p class="font-semibold text-sm">Data:</p>
+                    <input type="date" id="date_filter" class="input-standart !w-40">
+                </div>
+                <div class="flex flex-col items-start gap-1">
+                    <p class="font-semibold text-sm">Klient:</p>
+                    <select id="client_filter" class="input-standart !w-48">
+                        <option value="">Wszyscy</option>
+                        @for(client of clients; track $index){
+                            <option value="{{client.client_nip}}">{{client.name}}</option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <button [disabled]="loading" (click)="get_work()" class="button-standart">Generuj</button>
+
+            @if(error_message){<div class="msg-error mb-4">{{ error_message }}</div>}
+
+            <div class="summary-card !cursor-default !shadow-[4px_4px_0_#111] hover:transform-none">
+                <div class="summary-card-grid">
+                    @for(job of job_list; track $index){
+                        <div class="summary-card-item">
+                            <span>{{job}}</span>
+                            <span class="font-bold">{{(jobs.get(job))?.toFixed(2)}} h</span>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Klient</th>
+                            <th>Czynność</th>
+                            <th class="w-28">Data</th>
+                            <th>Początek</th>
+                            <th class="w-24">Czas</th>
+                            <th class="w-24 text-center">Akcja</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for(work of works; track $index){
+                            <tr>
+                                <td>{{work.name}}</td>
+                                <td>{{work.work_type}}</td>
+                                <td>{{work.date}}</td>
+                                <td>{{(work.time_start).substring(0,5)}}</td>
+                                <td>{{(work.time).substring(0,(work.time).length-2)}} h</td>
+                                <td (click)="Delete(work)" class="table-action-danger">Usuń</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    @if(edited){
+        <div class="modal-backdrop">
+            <div class="modal-card !max-w-3xl">
+                <h3 class="section-title">Wybierz czynność</h3>
+                <div class="table-wrap">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Klient</th>
+                                <th>Czynność</th>
+                                <th class="w-28">Data</th>
+                                <th>Początek</th>
+                                <th class="w-24">Czas</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{edited.name}}</td>
+                                <td>{{edited.work_type}}</td>
+                                <td>{{edited.date}}</td>
+                                <td>{{(edited.time_start).substring(0,5)}}</td>
+                                <td>{{(edited.time).substring(0,(edited.time).length-2)}} h</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="flex flex-wrap justify-center gap-3">
+                    <button [disabled]="loading" (click)="Delete(edited)" class="button-standart button-danger">Usuń</button>
+                    <button [disabled]="loading" (click)="edited=null" class="button-standart button-neutral">Anuluj</button>
+                </div>
+                @if(error_message){<div class="msg-error">{{ error_message }}</div>}
+            </div>
+        </div>
+    }
+</div>

@@ -1,0 +1,142 @@
+<div class="container-standart">
+    <h1 class="title-header">Wykonane czynności</h1>
+    <main class="space-y-10">
+        <section>
+            <h3 class="section-title">Dodaj czynność</h3>
+            <form [formGroup]="inputForm" (ngSubmit)="file_work()">
+                <div class="form-row">
+                    <p class="form-label">Wybierz klienta:</p>
+                    <select id="client_pick" formControlName="client_nip" class="input-standart">
+                        @for(client of clients; track $index){
+                            <option value="{{client.client_nip}}">{{client.name}}</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-row">
+                    <p class="form-label">Wybierz czynność:</p>
+                    <select formControlName="work_type" class="input-standart">
+                        @if(loading){<option value="Inne">ładowanie</option>}
+                        <option value="Księgowanie faktur">Księgowanie faktur</option>
+                        <option value="Księgowanie WB">Księgowanie WB</option>
+                        <option value="Księgowanie PK">Księgowanie PK</option>
+                        <option value="Analizy">Analizy</option>
+                        <option value="Podatki">Podatki</option>
+                        <option value="Wystawianie faktur sprzedaży">Wystawianie faktur sprzedaży</option>
+                        <option value="Wprowadzanie płatności">Wprowadzanie płatności</option>
+                        <option value="Raporty dla klienta">Raporty dla klienta</option>
+                        <option value="Sprawozdania GUS">Sprawozdania GUS</option>
+                        <option value="Usługi kadrowe">Usługi kadrowe</option>
+                        <option value="Inne">Inne</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <p class="form-label">Wybierz datę:</p>
+                    <input type="date" [min]="util.get_date_str(7)" [max]="util.get_date_str()" formControlName="date" class="input-standart">
+                </div>
+                <div class="form-row">
+                    <p class="form-label">Czas rozpoczęcia:</p>
+                    <input type="time" formControlName="time_start" class="input-standart">
+                </div>
+                <div class="form-row">
+                    <p class="form-label">Czas końca:</p>
+                    <input type="time" formControlName="time_finish" class="input-standart">
+                </div>
+                <div class="form-row">
+                    <p class="form-label">Uwagi:</p>
+                    <textarea formControlName="notes" class="input-standart"></textarea>
+                </div>
+
+                @if(error_message){<div class="msg-error">{{ error_message }}</div>}
+                @if(success_message){<div class="msg-success">{{ success_message }}</div>}
+
+                <button type="submit" [disabled]="loading" class="button-standart">Zapisz</button>
+            </form>
+        </section>
+
+        <section>
+            <h3 class="section-title">Wykonane czynności</h3>
+            <div class="flex flex-wrap justify-center items-center gap-4 mb-4">
+                <div class="flex items-center gap-2">
+                    <p class="font-semibold text-sm sm:text-base">Data:</p>
+                    <input type="date" id="date_filter" (change)="get_work()" class="input-standart !w-auto">
+                </div>
+                <div class="flex items-center gap-2">
+                    <p class="font-semibold text-sm sm:text-base">Klient:</p>
+                    <select id="client_filter" (change)="get_work()" class="input-standart !w-48">
+                        <option value="">Wszyscy</option>
+                        @for(client of clients; track $index){
+                            <option value="{{client.client_nip}}">{{client.name}}</option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Klient</th>
+                            <th>Czynność</th>
+                            <th class="w-28">Data</th>
+                            <th>Początek</th>
+                            <th>Koniec</th>
+                            <th>Notatki</th>
+                            <th class="text-center">Akcja</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for(work of work_done; track $index){
+                            <tr>
+                                <td>{{work.client.name}}</td>
+                                <td>{{work.work_type}}</td>
+                                <td>{{(work.date).substring(0,10)}}</td>
+                                <td>{{(work.time_start).substring(0,5)}}</td>
+                                <td>{{(work.time_finish).substring(0,5)}}</td>
+                                <td>{{work.notes}}</td>
+                                <td (click)="Edit(work)" class="table-action">Edytuj</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    @if(edited_work){
+        <div class="modal-backdrop">
+            <div class="modal-card !max-w-3xl">
+                <h3 class="section-title">Wybierz czynność</h3>
+                <div class="table-wrap">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Klient</th>
+                                <th>Czynność</th>
+                                <th class="w-28">Data</th>
+                                <th>Początek</th>
+                                <th>Koniec</th>
+                                <th>Notatki</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{edited_work.client?.name || edited_work.name}}</td>
+                                <td>{{edited_work.work_type}}</td>
+                                <td>{{(edited_work.date).substring(0,10)}}</td>
+                                <td>{{(edited_work.time_start).substring(0,5)}}</td>
+                                <td>{{(edited_work.time_finish).substring(0,5)}}</td>
+                                <td>{{edited_work.notes}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="flex flex-wrap justify-center gap-3">
+                    <button [disabled]="loading" (click)="Patch(edited_work)" class="button-standart button-warn">Zmień</button>
+                    <button [disabled]="loading" (click)="Delete(edited_work)" class="button-standart button-danger">Usuń</button>
+                    <button [disabled]="loading" (click)="edited_work=null" class="button-standart button-neutral">Anuluj</button>
+                </div>
+                @if(error_message){<div class="msg-error">{{ error_message }}</div>}
+            </div>
+        </div>
+    }
+</div>
