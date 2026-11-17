@@ -58,13 +58,13 @@ export class Login {
     const { email, password} = this.loginForm.value;
     this.authService.login(email, password).subscribe({
       next: (user) => {
-        this.tokenStorage.saveUser(user);
-        sessionStorage.setItem("logged","yes");
-        this.router.navigateByUrl(this.returnUrl);
-        // this.loading = false;
-        // this.errorMessage = '';
-        // this.auth2F=true;
-        // this.changeDetectorRef.detectChanges();
+        // this.tokenStorage.saveUser(user);
+        // sessionStorage.setItem("logged","yes");
+        // this.router.navigateByUrl(this.returnUrl);
+        this.loading = false;
+        this.errorMessage = '';
+        this.auth2F=true;
+        this.changeDetectorRef.detectChanges();
       },
       error: (error) => {
         this.errorMessage = 'Nieprawidłowy login lub hasło';

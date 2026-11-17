@@ -61,20 +61,20 @@ class AuthController extends Controller
             "token_life"=>now()->addMinutes(10)
         ]);
         $user->save();
-        // $user->notify(new SendOtpNotification($token));
-        // return new SuccessResource([
-        //     'message' => 'Proced to second step'
-        // ]);
-        $request->session()->regenerate();
-        $user = Auth::user();
-        return response()->json([
-           'id' => $user->employee_id,
-            'email' => $user->email,
-            'name' => $user->name,
-            'admin'=>$user->admin,
-            'time' =>date("Y-m-d H:i:s"),
-            'message' => 'User authenticated successfully',
+        $user->notify(new SendOtpNotification($token));
+        return new SuccessResource([
+            'message' => 'Proced to second step'
         ]);
+        // $request->session()->regenerate();
+        // $user = Auth::user();
+        // return response()->json([
+        //    'id' => $user->employee_id,
+        //     'email' => $user->email,
+        //     'name' => $user->name,
+        //     'admin'=>$user->admin,
+        //     'time' =>date("Y-m-d H:i:s"),
+        //     'message' => 'User authenticated successfully',
+        // ]);
     }
     public function auth2F(Login2FUserRequest $request){
         $validated = $request->validated();
