@@ -11,6 +11,7 @@ use App\Http\Resources\ErrorResource;
 use App\Http\Resources\SuccessResource;
 use App\Models\Employee;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -79,6 +80,9 @@ class UserController extends Controller
         }
         if(isset($validated['password'])) $validated['password']=password_hash(hash_hmac("sha256", $validated["password"], getenv('PEPPER')),PASSWORD_ARGON2ID);
         $employee->update($validated);
+        DB::table('sessions')
+            ->where('user_id',$employee->employee_id)
+            ->delete();
         return new SuccessResource([
             'message' => 'Updated employee successfully'
         ]);
@@ -98,6 +102,11 @@ class UserController extends Controller
         }
         if(isset($validated['password'])) $validated['password']=password_hash(hash_hmac("sha256", $validated["password"], getenv('PEPPER')),PASSWORD_ARGON2ID);
         $user->update($validated);
+        if(isset($validated['password'])){
+            DB::table('sessions')
+                ->where('user_id',$user->employee_id)
+                ->delete();
+        }
         return new SuccessResource([
             'message' => 'Updated employee successfully'
         ]);
