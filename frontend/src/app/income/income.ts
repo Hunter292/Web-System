@@ -190,12 +190,12 @@ export class Income {
               this.error_message="";
               this.inputForm.reset();
               this.get_income();
-              this.success_message="";
+              this.success_message="Dodano wpłatę";
               this.changeDetectorRef.detectChanges();
           },
           error: (error) => {
               this.error_message = error.error.detail;
-              this.success_message="Dodano wpłatę";
+              this.success_message="";
               console.error('There was an error!', error);
               this.loading=false;
               return;
