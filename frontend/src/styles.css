@@ -290,6 +290,14 @@ h1, h2, h3, .title-header, .section-title, .tile-btn, .button-standart, .button-
         @apply bg-amber-400;
     }
 
+    .table-action-danger {
+        @apply bg-red-500 text-white font-bold text-center cursor-pointer transition-colors duration-150;
+    }
+
+    .table-action-danger:hover {
+        @apply bg-red-700;
+    }
+
     /* Action button variants & modals */
     .button-warn {
         @apply bg-amber-300 text-[#111111];
