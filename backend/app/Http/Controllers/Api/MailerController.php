@@ -39,7 +39,7 @@ class MailerController extends Controller
         try{
             $report=Report::create([
                 'employee_id'=>$request->user()->employee_id,
-                'client_nip'=>$validated['employee_id'],
+                'client_nip'=>$validated['client_nip'],
                 'date'=>date('Y-m-d'),
                 'content'=>$content,
                 'notes'=>$validated['notes']
