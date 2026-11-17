@@ -87,7 +87,7 @@
             </div>
 
             @for(task of to_user_tasks; track $index){
-                <div class="summary-card !cursor-default hover:transform-none">
+                <div class="summary-card-task !cursor-default hover:transform-none">
                     <div class="summary-card-head !bg-primary-200 hover:!bg-primary-200 hover:!text-[#111111]">
                         @if(task.priority=="1"){
                             <div class="inline-block px-2 py-0.5 mb-2 border-2 border-[#111] bg-red-500 text-white text-xs font-bold uppercase">Priorytet</div>
@@ -152,7 +152,7 @@
             </div>
 
             @for(task of users_tasks; track $index){
-                <div class="summary-card !cursor-default hover:transform-none">
+                <div class="summary-card-task !cursor-default hover:transform-none">
                     <div class="summary-card-head !bg-primary-200 hover:!bg-primary-200 hover:!text-[#111111]">
                         @if(task.priority=="1"){
                             <div class="inline-block px-2 py-0.5 mb-2 border-2 border-[#111] bg-red-500 text-white text-xs font-bold uppercase">Priorytet</div>

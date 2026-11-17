@@ -27,7 +27,6 @@ export class Mailer {
   report_email_list:Array<any>=[];
   clients:Array<any>=[];
   client_mails:Array<any>=[];
-  client_micro:Array<any>=[];
   emails:number=1;
   taxes:number=1;
   reports_loaded:boolean=false;
@@ -119,27 +118,7 @@ export class Mailer {
       }
     })
   }
-  get_micro(){
-    let nip=this.inputForm.get("client_nip")?.value;
-    if(!nip) return;
-    this.loading=true;
-    this.http.get<any>(`${sessionStorage.getItem("apiURL")}/mailer/micro_acc/${nip}`).subscribe({
-      next: data => {
-          this.client_micro=data;
-          if(!this.client_micro.length) this.client_micro.push({acc_number:'',ZUS:"Brak rachunków"})
-          this.loading=false;
-          this.changeDetectorRef.detectChanges();
-      },
-      error: (error) => {
-          this.error_message = error.error.message;
-          this.success_message="";
-          console.error('There was an error!', error);
-          this.loading=false;
-          this.changeDetectorRef.detectChanges();
-          return;
-      }
-    })
-  }
+  
   file_report(){
     if(this.inputForm.invalid){
       this.success_message="";
@@ -204,12 +183,9 @@ export class Mailer {
       }
       taxes_m.push(elem.value);
     }
-    for(let i=0;i<this.taxes-1;i++){
-      elem=document.getElementById("tax_acc-"+i) as HTMLInputElement;
-      taxes_acc.push(elem.value);
-    }
+    
     this.loading=true;
-    this.http.post<any>(`${sessionStorage.getItem("apiURL")}/mailer`,{client_nip:client_nip,taxes_v:taxes,taxes:taxes_names,taxes_acc:taxes_acc,taxes_m:taxes_m,notes:notes,emails:emails,date:date}).subscribe({
+    this.http.post<any>(`${sessionStorage.getItem("apiURL")}/mailer`,{client_nip:client_nip,taxes_v:taxes,taxes:taxes_names,taxes_m:taxes_m,notes:notes,emails:emails,date:date}).subscribe({
       next: data => {
           this.loading=false;
           let elem;
@@ -300,38 +276,6 @@ export class Mailer {
             elem=document.getElementById("email-"+i) as HTMLInputElement;
             elem.value="0";
           }
-          this.changeDetectorRef.detectChanges();
-      },
-      error: (error) => {
-          this.error_message = error.error.message;
-          this.success_message="";
-          console.error('There was an error!', error);
-          this.loading=false;
-          this.changeDetectorRef.detectChanges();
-          return;
-      }
-    })
-  }
-  file_micro(){
-    let nip=this.inputForm.get("client_nip")?.value;
-    if(!nip){
-      this.success_message="";
-      this.error_message="Napierw wybierz klienta";
-      return;
-    }
-    let input=document.getElementById("micro-new") as HTMLInputElement;
-    let micro=input.value;
-    let zus_in=document.getElementById("zus") as HTMLInputElement;
-    let zus=zus_in.checked?1:0;
-    this.loading=true;
-    this.http.post<any>(`${sessionStorage.getItem("apiURL")}/mailer/micro_acc/${nip}`,{acc_number:micro,zus:zus}).subscribe({
-      next: data => {
-          this.get_micro();
-          this.loading=false;
-          this.success_message="Dodano mikro rachunek";
-          input.value="";
-          zus_in.checked=false;
-          this.error_message="";
           this.changeDetectorRef.detectChanges();
       },
       error: (error) => {

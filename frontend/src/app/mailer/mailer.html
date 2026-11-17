@@ -6,7 +6,7 @@
             <form [formGroup]="inputForm" (ngSubmit)="file_report()">
                 <div class="form-row">
                     <p class="form-label">Wybierz klienta:</p>
-                    <select formControlName="client_nip" (change)="get_emails(); get_micro()" class="input-standart">
+                    <select formControlName="client_nip" (change)="get_emails();" class="input-standart">
                         @for(client of clients; track $index){
                             <option value="{{client.client_nip}}">{{client.name}}</option>
                         }
@@ -69,16 +69,7 @@
                                 <p class="font-semibold text-sm mb-1">Wartość</p>
                                 <input id="tax_v-{{$index}}" type="number" step="0.01" class="input-standart !w-full !max-w-none">
                             </div>
-                            <div>
-                                <p class="font-semibold text-sm mb-1">Mikro rachunek</p>
-                                <select id="tax_acc-{{$index}}" class="input-standart !w-full !max-w-none">
-                                    <option value="0"></option>
-                                    @if(!client_micro.length){<option value="0">ładowanie</option>}
-                                    @for(micro of client_micro; track $index){
-                                        <option value="{{micro.acc_number}}">{{micro.acc_number}}{{micro.ZUS==1?" ZUS":micro.ZUS?micro.ZUS:""}}</option>
-                                    }
-                                </select>
-                            </div>
+                            
                             <div>
                                 <p class="font-semibold text-sm mb-1">Termin płatności</p>
                                 <input id="tax_m-{{$index}}" type="date" class="input-standart !w-full !max-w-none">
@@ -111,26 +102,6 @@
             </div>
             <button [disabled]="loading" (click)="patch_client()" class="button-standart">Prześlij</button>
 
-            @if(error_message){<div class="msg-error">{{ error_message }}</div>}
-            @if(success_message){<div class="msg-success">{{ success_message }}</div>}
-        </section>
-
-        <section>
-            <h3 class="section-title">Dodaj nowy mikro rachunek dla klienta</h3>
-            <div class="form-row">
-                <p class="form-label">Wpisz numer:</p>
-                <input type="text" id="micro-new" class="input-standart">
-            </div>
-            <div class="flex justify-center items-center gap-3 mt-4">
-                <p class="font-semibold text-sm sm:text-base">ZUS?</p>
-                <label class="toggler-wrapper style-1">
-                    <input type="checkbox" id="zus">
-                    <div class="toggler-slider">
-                        <div class="toggler-knob"></div>
-                    </div>
-                </label>
-            </div>
-            <button [disabled]="loading" (click)="file_micro()" class="button-standart">Prześlij</button>
             @if(error_message){<div class="msg-error">{{ error_message }}</div>}
             @if(success_message){<div class="msg-success">{{ success_message }}</div>}
         </section>

@@ -363,10 +363,15 @@ h1, h2, h3, .title-header, .section-title, .tile-btn, .button-standart, .button-
         border-radius: 0;
         box-shadow: 2px 2px 0 var(--ink);
     }
+    .summary-card-task {
+        @apply mb-5 bg-white text-left cursor-pointer transition-transform duration-250;
+        border: var(--border-w) solid var(--ink);
+        border-radius: 0;
+    }
 
     .summary-card:hover {
         transform: translate(-1px, -1px);
-        box-shadow: 5px 5px 0 var(--ink);
+        box-shadow: 4px 4px 0 var(--ink);
     }
 
     .summary-card-head {
