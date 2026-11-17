@@ -35,12 +35,15 @@ class MailerController extends Controller
             $content.=";";
         }
         $date=$validated['date'];
-        $validated['date']=date('Y-m-d');
-        $validated['employee_id']=$request->user()->employee_id;
-        $validated['content']=$content;
         DB::beginTransaction();
         try{
-            $report=Report::create($validated);
+            $report=Report::create([
+                'employee_id'=>$request->user()->employee_id,
+                'client_nip'=>$validated['employee_id'],
+                'date'=>date('Y-m-d'),
+                'content'=>$content,
+                'notes'=>$validated['notes']
+            ]);
             foreach($emails as $email){
                 $report->emails()->attach($email);
             }
