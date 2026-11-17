@@ -61,10 +61,10 @@ class AuthController extends Controller
             "token_life"=>now()->addMinutes(10)
         ]);
         $user->save();
-        // $user->notify(new SendOtpNotification($token));
-        // return new SuccessResource([
-        //     'message' => 'Proced to second step'
-        // ]);
+        $user->notify(new SendOtpNotification($token));
+        return new SuccessResource([
+            'message' => 'Proced to second step'
+        ]);
         $request->session()->regenerate();
         $user = Auth::user();
         return response()->json([
