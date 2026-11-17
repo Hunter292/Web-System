@@ -38,16 +38,17 @@ class MailerController extends Controller
         DB::beginTransaction();
         try{
             $max=Report::orderBy('report_id','DESC')->first();
-            $report=Report::create([
+            /*$report=Report::create([
                 'report_id'=>$max->report_id+1,
                 'employee_id'=>$request->user()->employee_id,
                 'client_nip'=>$validated['client_nip'],
                 'date'=>date('Y-m-d'),
                 'content'=>$content,
                 'notes'=>$validated['notes']
-            ]);
-            // DB::insert("INSERT INTO raport VALUES(NULL,{$request->user()->employee_id},{$validated['client_nip']},'".date('Y-m-d')."','$content','{$validated['notes']}')");
-            // $report=Report::orderBy('report_id','DESC')->first();
+            ]);*/
+            $id=$max->report_id+1;
+            DB::insert("INSERT INTO raport VALUES({$id},{$request->user()->employee_id},{$validated['client_nip']},'".date('Y-m-d')."','$content','{$validated['notes']}')");
+            $report=Report::orderBy('report_id','DESC')->first();
             foreach($emails as $email){
                 $report->emails()->attach($email);
             }
