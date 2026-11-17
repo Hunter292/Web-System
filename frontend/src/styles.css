@@ -30,13 +30,13 @@ body {
     font-variant-numeric: tabular-nums;
 }
 
-h1, h2, h3, .title-header, .section-title, .tile-btn, .button-standart, .button-slim, .site-nav-link {
+h1, h2, h3, .title-header, .section-title, .tile-btn, .button-standard, .button-slim, .site-nav-link {
     font-family: var(--font-display);
 }
 
 @layer components {
     /* Panels & headings */
-    .container-standart {
+    .container-standard {
         @apply w-full sm:w-lg md:w-xl lg:w-3xl xl:w-5xl mx-auto bg-white text-center py-8 px-4 sm:p-10 text-base sm:text-lg mb-8;
         border: var(--border-w) solid var(--ink);
         border-radius: 0;
@@ -61,7 +61,7 @@ h1, h2, h3, .title-header, .section-title, .tile-btn, .button-standart, .button-
         @apply sm:w-44 text-left sm:text-right font-semibold text-sm sm:text-base;
     }
 
-    .input-standart {
+    .input-standard {
         @apply bg-stone-50 px-3 py-2.5 text-base w-full sm:w-3/4 md:w-1/2 max-w-sm;
         border: var(--border-w) solid var(--ink);
         border-radius: 0;
@@ -73,7 +73,7 @@ h1, h2, h3, .title-header, .section-title, .tile-btn, .button-standart, .button-
         border-radius: 0;
     }
 
-    .input-standart:focus,
+    .input-standard:focus,
     .input-wide:focus { 
         /*@apply outline-primary-500 outline-1;*/
         /*border: none;*/
@@ -83,29 +83,29 @@ h1, h2, h3, .title-header, .section-title, .tile-btn, .button-standart, .button-
         box-shadow: 3px 3px 3px var(--color-primary-300);
     }
 
-    .input-standart:disabled,
+    .input-standard:disabled,
     .input-wide:disabled {
         @apply bg-stone-200 text-stone-600 cursor-not-allowed;
     }
 
     /* Buttons & home tiles */
-    .button-standart {
+    .button-standard {
         @apply py-2.5 px-8 my-5 font-semibold bg-primary-500 text-[#111111] cursor-pointer transition-colors duration-150;
         border: var(--border-w) solid var(--ink);
         border-radius: 0;
         box-shadow: 2px 2px 0 var(--ink);
     }
 
-    .button-standart:hover:not(:disabled) {
+    .button-standard:hover:not(:disabled) {
         @apply bg-primary-700 text-white;
     }
 
-    .button-standart:active:not(:disabled) {
+    .button-standard:active:not(:disabled) {
         transform: translate(2px, 2px);
         box-shadow: 1px 1px 0 var(--ink);
     }
 
-    .button-standart:disabled {
+    .button-standard:disabled {
         @apply bg-stone-200 text-stone-500 cursor-not-allowed;
         box-shadow: none;
     }
@@ -144,6 +144,22 @@ h1, h2, h3, .title-header, .section-title, .tile-btn, .button-standart, .button-
     .tile-btn--mint:hover {
         background-color: var(--accent-mint-hover);
         color: #FFFFFF;
+    }
+
+    .tile-btn--amber {
+        @apply bg-amber-300 text-[#111111];
+    }
+
+    .tile-btn--amber:hover {
+        @apply bg-amber-400 text-[#111111];
+    }
+
+    .tile-btn--muted {
+        @apply bg-stone-200 text-[#111111];
+    }
+
+    .tile-btn--muted:hover {
+        @apply bg-stone-300 text-[#111111];
     }
 
     .tile-btn--neutral {

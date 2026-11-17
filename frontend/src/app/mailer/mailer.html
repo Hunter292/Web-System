@@ -1,4 +1,4 @@
-<div class="container-standart">
+<div class="container-standard">
     <h1 class="title-header">Wysyłanie raportów</h1>
     <main class="space-y-10">
         <section>
@@ -6,7 +6,7 @@
             <form [formGroup]="inputForm" (ngSubmit)="file_report()">
                 <div class="form-row">
                     <p class="form-label">Wybierz klienta:</p>
-                    <select formControlName="client_nip" (change)="get_emails();" class="input-standart">
+                    <select formControlName="client_nip" (change)="get_emails();" class="input-standard">
                         @for(client of clients; track $index){
                             <option value="{{client.client_nip}}">{{client.name}}</option>
                         }
@@ -14,18 +14,18 @@
                 </div>
                 <div class="form-row">
                     <p class="form-label">Dodatkowe informacje:</p>
-                    <textarea formControlName="notes" class="input-standart"></textarea>
+                    <textarea formControlName="notes" class="input-standard"></textarea>
                 </div>
                 <div class="form-row">
                     <p class="form-label">Okres:</p>
-                    <input type="text" placeholder="RRRR/MM-RRRR" formControlName="date" class="input-standart">
+                    <input type="text" placeholder="RRRR/MM-RRRR" formControlName="date" class="input-standard">
                 </div>
 
                 <h4 class="font-bold text-lg text-center mt-8 mb-3">Wskaż na jakie emaile wysłać wyliczenie</h4>
                 @for(item of createRange(emails); track $index){
                     <div class="form-row">
                         <p class="form-label">Wpisz email {{$index+1}}:</p>
-                        <select id="email-{{$index}}" (change)="change_email($event)" class="input-standart">
+                        <select id="email-{{$index}}" (change)="change_email($event)" class="input-standard">
                             <option value="0"></option>
                             @if(!client_mails.length){<option value="0">ładowanie</option>}
                             @for(email of client_mails; track $index){
@@ -37,8 +37,8 @@
 
                 <h4 class="font-bold text-lg text-center mt-8 mb-3">Dodaj nowy email dla klienta</h4>
                 <div class="flex flex-wrap justify-center items-center gap-3 mb-6">
-                    <input type="email" id="email-new" placeholder="nowy@email.pl" class="input-standart !w-72">
-                    <button type="button" [disabled]="loading" (click)="$event.preventDefault();file_email()" class="button-standart !my-0">Dodaj email</button>
+                    <input type="email" id="email-new" placeholder="nowy@email.pl" class="input-standard !w-72">
+                    <button type="button" [disabled]="loading" (click)="$event.preventDefault();file_email()" class="button-standard !my-0">Dodaj email</button>
                 </div>
                 @if(error_message){<div class="msg-error">{{ error_message }}</div>}
                 @if(success_message){<div class="msg-success">{{ success_message }}</div>}
@@ -50,7 +50,7 @@
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
                                 <p class="font-semibold text-sm mb-1">Nazwa</p>
-                                <input id="tax-{{$index}}" type="text" (change)="change_taxes($event)" class="input-standart !w-full !max-w-none" list="suggestions">
+                                <input id="tax-{{$index}}" type="text" (change)="change_taxes($event)" class="input-standard !w-full !max-w-none" list="suggestions">
                                 <datalist id="suggestions">
                                     <option value="VAT7">
                                     <option value="VAT7K">
@@ -67,18 +67,18 @@
                             </div>
                             <div>
                                 <p class="font-semibold text-sm mb-1">Wartość</p>
-                                <input id="tax_v-{{$index}}" type="number" step="0.01" class="input-standart !w-full !max-w-none">
+                                <input id="tax_v-{{$index}}" type="number" step="0.01" class="input-standard !w-full !max-w-none">
                             </div>
                             
                             <div>
                                 <p class="font-semibold text-sm mb-1">Termin płatności</p>
-                                <input id="tax_m-{{$index}}" type="date" class="input-standart !w-full !max-w-none">
+                                <input id="tax_m-{{$index}}" type="date" class="input-standard !w-full !max-w-none">
                             </div>
                         </div>
                     </div>
                 }
 
-                <button [disabled]="loading" type="submit" class="button-standart">Prześlij</button>
+                <button [disabled]="loading" type="submit" class="button-standard">Prześlij</button>
 
                 @if(error_message){<div class="msg-error">{{ error_message }}</div>}
                 @if(success_message){<div class="msg-success">{{ success_message }}</div>}
@@ -89,7 +89,7 @@
             <h3 class="section-title">Zmień nazwę klienta</h3>
             <div class="form-row">
                 <p class="form-label">Klient:</p>
-                <select id="client_patch" class="input-standart">
+                <select id="client_patch" class="input-standard">
                     <option value=""></option>
                     @for(client of clients; track $index){
                         <option value="{{client.client_nip}}">{{client.name}}</option>
@@ -98,9 +98,9 @@
             </div>
             <div class="form-row">
                 <p class="form-label">Nowa nazwa:</p>
-                <input type="text" id="name_patch" class="input-standart">
+                <input type="text" id="name_patch" class="input-standard">
             </div>
-            <button [disabled]="loading" (click)="patch_client()" class="button-standart">Prześlij</button>
+            <button [disabled]="loading" (click)="patch_client()" class="button-standard">Prześlij</button>
 
             @if(error_message){<div class="msg-error">{{ error_message }}</div>}
             @if(success_message){<div class="msg-success">{{ success_message }}</div>}
@@ -111,7 +111,7 @@
             <div class="flex flex-wrap justify-center items-end gap-4 mb-4">
                 <div class="flex flex-col items-start gap-1">
                     <p class="font-semibold text-sm">Klient:</p>
-                    <select id="client_filter" (change)="get_reports(1)" class="input-standart !w-52">
+                    <select id="client_filter" (change)="get_reports(1)" class="input-standard !w-52">
                         <option value="">Wszyscy</option>
                         @for(client of clients; track $index){
                             <option value="{{client.client_nip}}">{{client.name}}</option>
@@ -120,7 +120,7 @@
                 </div>
                 <div class="flex flex-col items-start gap-1">
                     <p class="font-semibold text-sm">Miesiąc:</p>
-                    <select id="month_filter" (change)="get_reports(1)" class="input-standart !w-36">
+                    <select id="month_filter" (change)="get_reports(1)" class="input-standard !w-36">
                         <option value=""></option>
                         <option value="1">Styczeń</option>
                         <option value="2">Luty</option>
@@ -138,7 +138,7 @@
                 </div>
                 <div class="flex flex-col items-start gap-1">
                     <p class="font-semibold text-sm">Rok:</p>
-                    <input type="number" id="year_filter" (change)="get_reports(1)" class="input-standart !w-28">
+                    <input type="number" id="year_filter" (change)="get_reports(1)" class="input-standard !w-28">
                 </div>
             </div>
 

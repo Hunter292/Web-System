@@ -1,4 +1,4 @@
-<div class="container-standart">
+<div class="container-standard">
     <h1 class="title-header">Wykonane czynności</h1>
     <main class="space-y-10">
         <section>
@@ -6,7 +6,7 @@
             <form [formGroup]="inputForm" (ngSubmit)="file_work()">
                 <div class="form-row">
                     <p class="form-label">Wybierz klienta:</p>
-                    <select id="client_pick" formControlName="client_nip" class="input-standart">
+                    <select id="client_pick" formControlName="client_nip" class="input-standard">
                         @for(client of clients; track $index){
                             <option value="{{client.client_nip}}">{{client.name}}</option>
                         }
@@ -14,7 +14,7 @@
                 </div>
                 <div class="form-row">
                     <p class="form-label">Wybierz czynność:</p>
-                    <select formControlName="work_type" class="input-standart">
+                    <select formControlName="work_type" class="input-standard">
                         @if(loading){<option value="Inne">ładowanie</option>}
                         <option value="Księgowanie faktur">Księgowanie faktur</option>
                         <option value="Księgowanie WB">Księgowanie WB</option>
@@ -31,25 +31,25 @@
                 </div>
                 <div class="form-row">
                     <p class="form-label">Wybierz datę:</p>
-                    <input type="date" [min]="util.get_date_str(7)" [max]="util.get_date_str()" formControlName="date" class="input-standart">
+                    <input type="date" [min]="util.get_date_str(7)" [max]="util.get_date_str()" formControlName="date" class="input-standard">
                 </div>
                 <div class="form-row">
                     <p class="form-label">Czas rozpoczęcia:</p>
-                    <input type="time" formControlName="time_start" class="input-standart">
+                    <input type="time" formControlName="time_start" class="input-standard">
                 </div>
                 <div class="form-row">
                     <p class="form-label">Czas końca:</p>
-                    <input type="time" formControlName="time_finish" class="input-standart">
+                    <input type="time" formControlName="time_finish" class="input-standard">
                 </div>
                 <div class="form-row">
                     <p class="form-label">Uwagi:</p>
-                    <textarea formControlName="notes" class="input-standart"></textarea>
+                    <textarea formControlName="notes" class="input-standard"></textarea>
                 </div>
 
                 @if(error_message){<div class="msg-error">{{ error_message }}</div>}
                 @if(success_message){<div class="msg-success">{{ success_message }}</div>}
 
-                <button type="submit" [disabled]="loading" class="button-standart">Zapisz</button>
+                <button type="submit" [disabled]="loading" class="button-standard">Zapisz</button>
             </form>
         </section>
 
@@ -58,11 +58,11 @@
             <div class="flex flex-wrap justify-center items-center gap-4 mb-4">
                 <div class="flex items-center gap-2">
                     <p class="font-semibold text-sm sm:text-base">Data:</p>
-                    <input type="date" id="date_filter" (change)="get_work()" class="input-standart !w-auto">
+                    <input type="date" id="date_filter" (change)="get_work()" class="input-standard !w-auto">
                 </div>
                 <div class="flex items-center gap-2">
                     <p class="font-semibold text-sm sm:text-base">Klient:</p>
-                    <select id="client_filter" (change)="get_work()" class="input-standart !w-48">
+                    <select id="client_filter" (change)="get_work()" class="input-standard !w-48">
                         <option value="">Wszyscy</option>
                         @for(client of clients; track $index){
                             <option value="{{client.client_nip}}">{{client.name}}</option>
@@ -131,9 +131,9 @@
                     </table>
                 </div>
                 <div class="flex flex-wrap justify-center gap-3">
-                    <button [disabled]="loading" (click)="Patch(edited_work)" class="button-standart button-warn">Zmień</button>
-                    <button [disabled]="loading" (click)="Delete(edited_work)" class="button-standart button-danger">Usuń</button>
-                    <button [disabled]="loading" (click)="edited_work=null" class="button-standart button-neutral">Anuluj</button>
+                    <button [disabled]="loading" (click)="Patch(edited_work)" class="button-standard button-warn">Zmień</button>
+                    <button [disabled]="loading" (click)="Delete(edited_work)" class="button-standard button-danger">Usuń</button>
+                    <button [disabled]="loading" (click)="edited_work=null" class="button-standard button-neutral">Anuluj</button>
                 </div>
                 @if(error_message){<div class="msg-error">{{ error_message }}</div>}
             </div>

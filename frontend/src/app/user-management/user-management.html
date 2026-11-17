@@ -1,4 +1,4 @@
-<div class="container-standart">
+<div class="container-standard">
     <h1 class="title-header">Zarządzanie pracownikami</h1>
     <main class="space-y-10">
         <section id="worker_form">
@@ -6,19 +6,19 @@
             <form [formGroup]="inputForm" (ngSubmit)="file_worker()">
                 <div class="form-row">
                     <p class="form-label">Imię:</p>
-                    <input type="text" formControlName="name" class="input-standart">
+                    <input type="text" formControlName="name" class="input-standard">
                 </div>
                 <div class="form-row">
                     <p class="form-label">Email:</p>
-                    <input type="email" formControlName="email" class="input-standart">
+                    <input type="email" formControlName="email" class="input-standard">
                 </div>
                 <div class="form-row">
                     <p class="form-label">Hasło:</p>
-                    <input type="password" formControlName="password" class="input-standart">
+                    <input type="password" formControlName="password" class="input-standard">
                 </div>
                 <div class="form-row">
                     <p class="form-label">Twoje hasło:</p>
-                    <input type="password" formControlName="pass_admin" class="input-standart">
+                    <input type="password" formControlName="pass_admin" class="input-standard">
                 </div>
                 <div class="flex justify-center items-center gap-3 mt-4">
                     <p class="font-semibold text-sm sm:text-base">Nadaj status Admina:</p>
@@ -30,7 +30,7 @@
                     </label>
                 </div>
 
-                <button [disabled]="loading" type="submit" class="button-standart">Prześlij</button>
+                <button [disabled]="loading" type="submit" class="button-standard">Prześlij</button>
 
                 @if(error_message){<div class="msg-error">{{ error_message }}</div>}
                 @if(success_message){<div class="msg-success">{{ success_message }}</div>}
@@ -70,11 +70,11 @@
                 <h3 class="section-title">Podaj hasło</h3>
                 <div class="form-row">
                     <p class="form-label">Twoje hasło:</p>
-                    <input type="text" id="admin_pass" class="input-standart">
+                    <input type="text" id="admin_pass" class="input-standard">
                 </div>
                 <div class="flex flex-wrap justify-center gap-3">
-                    <button [disabled]="loading" (click)="Delete(edited_worker)" class="button-standart button-danger">Usuń</button>
-                    <button [disabled]="loading" (click)="delete=null; error_message=''" class="button-standart button-neutral">Anuluj</button>
+                    <button [disabled]="loading" (click)="Delete(edited_worker)" class="button-standard button-danger">Usuń</button>
+                    <button [disabled]="loading" (click)="delete=null; error_message=''" class="button-standard button-neutral">Anuluj</button>
                 </div>
                 @if(error_message){<div class="msg-error">{{ error_message }}</div>}
             </div>
@@ -104,9 +104,9 @@
                     </table>
                 </div>
                 <div class="flex flex-wrap justify-center gap-3">
-                    <button [disabled]="loading" (click)="Patch(edited_worker)" class="button-standart button-warn">Zmień</button>
-                    <button [disabled]="loading" (click)="Delete(edited_worker)" class="button-standart button-danger">Usuń</button>
-                    <button [disabled]="loading" (click)="edited_worker=null" class="button-standart button-neutral">Anuluj</button>
+                    <button [disabled]="loading" (click)="Patch(edited_worker)" class="button-standard button-warn">Zmień</button>
+                    <button [disabled]="loading" (click)="Delete(edited_worker)" class="button-standard button-danger">Usuń</button>
+                    <button [disabled]="loading" (click)="edited_worker=null" class="button-standard button-neutral">Anuluj</button>
                 </div>
                 @if(error_message){<div class="msg-error">{{ error_message }}</div>}
             </div>

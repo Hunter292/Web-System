@@ -35,6 +35,9 @@ export class Header {
       }
     })
   }
+  to_home(){
+    this.router.navigate(['/home']);
+  }
   to_task(){
     this.router.navigate(['/zadania']);
   }

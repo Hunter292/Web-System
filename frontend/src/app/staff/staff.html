@@ -1,11 +1,11 @@
-<div class="container-standart">
+<div class="container-standard">
     <h1 class="title-header">Tabela pracowników</h1>
     <main>
         <section>
             <div class="flex flex-wrap justify-center items-end gap-4 mb-2">
                 <div class="flex flex-col items-start gap-1">
                     <p class="font-semibold text-sm">Miesiąc od:</p>
-                    <select id="month_filter" class="input-standart !w-40">
+                    <select id="month_filter" class="input-standard !w-40">
                         <option value=""></option>
                         <option value="1">Styczeń</option>
                         <option value="2">Luty</option>
@@ -23,7 +23,7 @@
                 </div>
                 <div class="flex flex-col items-start gap-1">
                     <p class="font-semibold text-sm">Miesiąc do:</p>
-                    <select id="month_filter-2" class="input-standart !w-40">
+                    <select id="month_filter-2" class="input-standard !w-40">
                         <option value=""></option>
                         <option value="1">Styczeń</option>
                         <option value="2">Luty</option>
@@ -41,11 +41,11 @@
                 </div>
                 <div class="flex flex-col items-start gap-1">
                     <p class="font-semibold text-sm">Rok:</p>
-                    <input type="number" id="year_filter" class="input-standart !w-32">
+                    <input type="number" id="year_filter" class="input-standard !w-32">
                 </div>
             </div>
 
-            <button [disabled]="loading" (click)="get_staff()" class="button-standart">Generuj</button>
+            <button [disabled]="loading" (click)="get_staff()" class="button-standard">Generuj</button>
 
             @if(error_message){<div class="msg-error mb-4">{{ error_message }}</div>}
             <div id="table"></div>

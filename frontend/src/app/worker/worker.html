@@ -1,11 +1,11 @@
-<div class="container-standart">
+<div class="container-standard">
     <h1 class="title-header">{{worker}}</h1>
     <main class="space-y-8">
         <section>
             <div class="flex flex-wrap justify-center items-end gap-4 mb-2">
                 <div class="flex flex-col items-start gap-1">
                     <p class="font-semibold text-sm">Miesiąc od:</p>
-                    <select id="month_filter" class="input-standart !w-36">
+                    <select id="month_filter" class="input-standard !w-36">
                         <option value=""></option>
                         <option value="1">Styczeń</option>
                         <option value="2">Luty</option>
@@ -23,7 +23,7 @@
                 </div>
                 <div class="flex flex-col items-start gap-1">
                     <p class="font-semibold text-sm">Miesiąc do:</p>
-                    <select id="month_filter-2" class="input-standart !w-36">
+                    <select id="month_filter-2" class="input-standard !w-36">
                         <option value=""></option>
                         <option value="1">Styczeń</option>
                         <option value="2">Luty</option>
@@ -41,15 +41,15 @@
                 </div>
                 <div class="flex flex-col items-start gap-1">
                     <p class="font-semibold text-sm">Rok:</p>
-                    <input type="number" id="year_filter" class="input-standart !w-28">
+                    <input type="number" id="year_filter" class="input-standard !w-28">
                 </div>
                 <div class="flex flex-col items-start gap-1">
                     <p class="font-semibold text-sm">Data:</p>
-                    <input type="date" id="date_filter" class="input-standart !w-40">
+                    <input type="date" id="date_filter" class="input-standard !w-40">
                 </div>
                 <div class="flex flex-col items-start gap-1">
                     <p class="font-semibold text-sm">Klient:</p>
-                    <select id="client_filter" class="input-standart !w-48">
+                    <select id="client_filter" class="input-standard !w-48">
                         <option value="">Wszyscy</option>
                         @for(client of clients; track $index){
                             <option value="{{client.client_nip}}">{{client.name}}</option>
@@ -58,7 +58,7 @@
                 </div>
             </div>
 
-            <button [disabled]="loading" (click)="get_work()" class="button-standart">Generuj</button>
+            <button [disabled]="loading" (click)="get_work()" class="button-standard">Generuj</button>
 
             @if(error_message){<div class="msg-error mb-4">{{ error_message }}</div>}
 
@@ -129,8 +129,8 @@
                     </table>
                 </div>
                 <div class="flex flex-wrap justify-center gap-3">
-                    <button [disabled]="loading" (click)="Delete(edited)" class="button-standart button-danger">Usuń</button>
-                    <button [disabled]="loading" (click)="edited=null" class="button-standart button-neutral">Anuluj</button>
+                    <button [disabled]="loading" (click)="Delete(edited)" class="button-standard button-danger">Usuń</button>
+                    <button [disabled]="loading" (click)="edited=null" class="button-standard button-neutral">Anuluj</button>
                 </div>
                 @if(error_message){<div class="msg-error">{{ error_message }}</div>}
             </div>

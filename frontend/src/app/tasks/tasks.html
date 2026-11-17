@@ -1,4 +1,4 @@
-<div class="container-standart">
+<div class="container-standard">
     <h1 class="title-header">Zadania</h1>
     <main class="space-y-10">
         <section>
@@ -6,7 +6,7 @@
             <form [formGroup]="inputForm" (ngSubmit)="file_task()">
                 <div class="form-row">
                     <p class="form-label">Wybierz klienta:</p>
-                    <select id="client_pick" formControlName="client_nip" class="input-standart">
+                    <select id="client_pick" formControlName="client_nip" class="input-standard">
                         <option value="0">Wewnętrzne</option>
                         @for(client of clients; track $index){
                             <option value="{{client.client_nip}}">{{client.name}}</option>
@@ -15,11 +15,11 @@
                 </div>
                 <div class="form-row">
                     <p class="form-label">Opis:</p>
-                    <textarea class="input-standart" formControlName="desc"></textarea>
+                    <textarea class="input-standard" formControlName="desc"></textarea>
                 </div>
                 <div class="form-row">
                     <p class="form-label">Wskaż deadline:</p>
-                    <input type="date" [min]="util.get_date_str()" formControlName="date" class="input-standart">
+                    <input type="date" [min]="util.get_date_str()" formControlName="date" class="input-standard">
                 </div>
                 <div class="flex justify-center items-center gap-3 mt-4">
                     <p class="font-semibold text-sm sm:text-base">Zadanie priorytetowe:</p>
@@ -35,7 +35,7 @@
                 @for(item of createRange(users); track $index){
                     <div class="form-row">
                         <p class="form-label">Wybierz pracownika {{$index+1}}:</p>
-                        <select id="user-{{$index}}" (change)="change_user($event)" class="input-standart">
+                        <select id="user-{{$index}}" (change)="change_user($event)" class="input-standard">
                             <option value="0"></option>
                             @if(!workers.length){<option value="0">ładowanie</option>}
                             @for(worker of workers; track $index){
@@ -48,7 +48,7 @@
                 @if(error_message){<div class="msg-error">{{ error_message }}</div>}
                 @if(success_message){<div class="msg-success">{{ success_message }}</div>}
 
-                <button type="submit" [disabled]="loading" class="button-standart">Dodaj</button>
+                <button type="submit" [disabled]="loading" class="button-standard">Dodaj</button>
             </form>
         </section>
 
@@ -57,7 +57,7 @@
             <div class="flex flex-wrap justify-center items-end gap-4 mb-5">
                 <div class="flex flex-col items-start gap-1">
                     <p class="font-semibold text-sm">Miesiąc:</p>
-                    <select id="month_filter0" (change)="get_tasks(0)" class="input-standart !w-36">
+                    <select id="month_filter0" (change)="get_tasks(0)" class="input-standard !w-36">
                         <option value=""></option>
                         <option value="1">Styczeń</option>
                         <option value="2">Luty</option>
@@ -75,11 +75,11 @@
                 </div>
                 <div class="flex flex-col items-start gap-1">
                     <p class="font-semibold text-sm">Rok:</p>
-                    <input type="number" id="year_filter0" (change)="get_tasks(0)" class="input-standart !w-28">
+                    <input type="number" id="year_filter0" (change)="get_tasks(0)" class="input-standard !w-28">
                 </div>
                 <div class="flex flex-col items-start gap-1">
                     <p class="font-semibold text-sm">Ukończone:</p>
-                    <select id="status_filter0" (change)="get_tasks(0)" class="input-standart !w-28">
+                    <select id="status_filter0" (change)="get_tasks(0)" class="input-standard !w-28">
                         <option value="1">NIE</option>
                         <option value="0">TAK</option>
                     </select>
@@ -122,7 +122,7 @@
             <div class="flex flex-wrap justify-center items-end gap-4 mb-5">
                 <div class="flex flex-col items-start gap-1">
                     <p class="font-semibold text-sm">Miesiąc:</p>
-                    <select id="month_filter1" (change)="get_tasks(1)" class="input-standart !w-36">
+                    <select id="month_filter1" (change)="get_tasks(1)" class="input-standard !w-36">
                         <option value=""></option>
                         <option value="1">Styczeń</option>
                         <option value="2">Luty</option>
@@ -140,11 +140,11 @@
                 </div>
                 <div class="flex flex-col items-start gap-1">
                     <p class="font-semibold text-sm">Rok:</p>
-                    <input type="number" id="year_filter1" (change)="get_tasks(1)" class="input-standart !w-28">
+                    <input type="number" id="year_filter1" (change)="get_tasks(1)" class="input-standard !w-28">
                 </div>
                 <div class="flex flex-col items-start gap-1">
                     <p class="font-semibold text-sm">Ukończone:</p>
-                    <select id="status_filter1" (change)="get_tasks(1)" class="input-standart !w-28">
+                    <select id="status_filter1" (change)="get_tasks(1)" class="input-standard !w-28">
                         <option value="1">NIE</option>
                         <option value="0">TAK</option>
                     </select>
@@ -196,10 +196,10 @@
                 <h3 class="section-title">Jaki status nadać</h3>
                 <p class="mb-4">{{task_status.description}}</p>
                 <div class="flex flex-wrap justify-center gap-3">
-                    <button [disabled]="loading" (click)="change_status(task_status,1)" class="button-standart !my-1 button-warn">Zapoznano się</button>
-                    <button [disabled]="loading" (click)="change_status(task_status,2)" class="button-standart !my-1 bg-emerald-200">W trakcie</button>
-                    <button [disabled]="loading" (click)="change_status(task_status,3)" class="button-standart !my-1 button-mint">Wykonano</button>
-                    <button [disabled]="loading" (click)="task_status=null" class="button-standart !my-1 button-neutral">Anuluj</button>
+                    <button [disabled]="loading" (click)="change_status(task_status,1)" class="button-standard !my-1 button-warn">Zapoznano się</button>
+                    <button [disabled]="loading" (click)="change_status(task_status,2)" class="button-standard !my-1 bg-emerald-200">W trakcie</button>
+                    <button [disabled]="loading" (click)="change_status(task_status,3)" class="button-standard !my-1 button-mint">Wykonano</button>
+                    <button [disabled]="loading" (click)="task_status=null" class="button-standard !my-1 button-neutral">Anuluj</button>
                 </div>
                 @if(error_message){<div class="msg-error">{{ error_message }}</div>}
             </div>
@@ -213,8 +213,8 @@
                 <p class="font-semibold">{{edited_task.description}}</p>
                 <p class="mb-4">{{edited_worker.name}}</p>
                 <div class="flex flex-wrap justify-center gap-3">
-                    <button [disabled]="loading" (click)="remove_from_task(edited_task,1)" class="button-standart button-danger">Usuń</button>
-                    <button [disabled]="loading" (click)="edited_task=null;edited_worker=null" class="button-standart button-neutral">Anuluj</button>
+                    <button [disabled]="loading" (click)="remove_from_task(edited_task,1)" class="button-standard button-danger">Usuń</button>
+                    <button [disabled]="loading" (click)="edited_task=null;edited_worker=null" class="button-standard button-neutral">Anuluj</button>
                 </div>
                 @if(error_message){<div class="msg-error">{{ error_message }}</div>}
             </div>
@@ -227,9 +227,9 @@
                 <h3 class="section-title">Wybierz czynność</h3>
                 <p class="mb-4">{{edited_task.description}}</p>
                 <div class="flex flex-wrap justify-center gap-3">
-                    <button [disabled]="loading" (click)="Patch()" class="button-standart button-warn">Zmień</button>
-                    <button [disabled]="loading" (click)="Delete()" class="button-standart button-danger">Usuń</button>
-                    <button [disabled]="loading" (click)="edited_task=null" class="button-standart button-neutral">Anuluj</button>
+                    <button [disabled]="loading" (click)="Patch()" class="button-standard button-warn">Zmień</button>
+                    <button [disabled]="loading" (click)="Delete()" class="button-standard button-danger">Usuń</button>
+                    <button [disabled]="loading" (click)="edited_task=null" class="button-standard button-neutral">Anuluj</button>
                 </div>
                 @if(error_message){<div class="msg-error">{{ error_message }}</div>}
             </div>
@@ -241,15 +241,15 @@
             <div class="modal-card">
                 <h3 class="section-title">Wybierz pracownika do dodania</h3>
                 <div class="mt-3 mb-2">
-                    <select id="input_add_worker" class="input-standart">
+                    <select id="input_add_worker" class="input-standard">
                         @for(worker of workers; track $index){
                             <option value="{{$index}}">{{worker.name}}</option>
                         }
                     </select>
                 </div>
                 <div class="flex flex-wrap justify-center gap-3">
-                    <button [disabled]="loading" (click)="add_to_task(to_task)" class="button-standart button-mint">Dodaj</button>
-                    <button [disabled]="loading" (click)="to_task=null" class="button-standart button-neutral">Anuluj</button>
+                    <button [disabled]="loading" (click)="add_to_task(to_task)" class="button-standard button-mint">Dodaj</button>
+                    <button [disabled]="loading" (click)="to_task=null" class="button-standard button-neutral">Anuluj</button>
                 </div>
                 @if(error_message){<div class="msg-error">{{ error_message }}</div>}
             </div>
