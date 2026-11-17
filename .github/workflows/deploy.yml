@@ -1,0 +1,45 @@
+name: Deploy to VPS
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      DEPLOY_HOST: 62.83.69.250
+      # The server's SSH host key, so the job talks only to our VPS.
+      DEPLOY_KNOWN_HOST: 62.83.69.250 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOb2cKT2Ac7G6UaNGMnMlcB2+u8BNCStxY1/npH6Eyts
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check the deploy key
+        id: key
+        env:
+          KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+        run: |
+          if [ -z "$KEY" ]; then
+            echo "::warning::Secret DEPLOY_SSH_KEY is not set; skipping the deploy."
+            echo "skip=1" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Ship the code and rebuild on the VPS
+        if: steps.key.outputs.skip != '1'
+        env:
+          KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+        run: |
+          install -d -m 700 ~/.ssh
+          printf '%s\n' "$KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          printf '%s\n' "$DEPLOY_KNOWN_HOST" > ~/.ssh/known_hosts
+          # The key may run only /opt/swbo/deploy.sh on the server, which reads this archive.
+          git archive --format=tar.gz HEAD \
+            | ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes \
+                  -o ServerAliveInterval=30 "swbo-deploy@$DEPLOY_HOST"

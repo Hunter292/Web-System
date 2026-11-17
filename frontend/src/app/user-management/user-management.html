@@ -1,0 +1,115 @@
+<div class="container-standart">
+    <h1 class="title-header">Zarządzanie pracownikami</h1>
+    <main class="space-y-10">
+        <section id="worker_form">
+            <h3 class="section-title">Dodaj pracownika</h3>
+            <form [formGroup]="inputForm" (ngSubmit)="file_worker()">
+                <div class="form-row">
+                    <p class="form-label">Imię:</p>
+                    <input type="text" formControlName="name" class="input-standart">
+                </div>
+                <div class="form-row">
+                    <p class="form-label">Email:</p>
+                    <input type="email" formControlName="email" class="input-standart">
+                </div>
+                <div class="form-row">
+                    <p class="form-label">Hasło:</p>
+                    <input type="password" formControlName="password" class="input-standart">
+                </div>
+                <div class="form-row">
+                    <p class="form-label">Twoje hasło:</p>
+                    <input type="password" formControlName="pass_admin" class="input-standart">
+                </div>
+                <div class="flex justify-center items-center gap-3 mt-4">
+                    <p class="font-semibold text-sm sm:text-base">Nadaj status Admina:</p>
+                    <label class="toggler-wrapper style-1">
+                        <input type="checkbox" id="admin_box">
+                        <div class="toggler-slider">
+                            <div class="toggler-knob"></div>
+                        </div>
+                    </label>
+                </div>
+
+                <button [disabled]="loading" type="submit" class="button-standart">Prześlij</button>
+
+                @if(error_message){<div class="msg-error">{{ error_message }}</div>}
+                @if(success_message){<div class="msg-success">{{ success_message }}</div>}
+            </form>
+        </section>
+
+        <section>
+            <h3 class="section-title">Pracownicy</h3>
+            <div class="table-wrap max-w-3xl mx-auto">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Imię</th>
+                            <th>Email</th>
+                            <th>Admin</th>
+                            <th class="text-center">Akcja</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for(worker of workers; track $index){
+                            <tr>
+                                <td>{{worker.name}}</td>
+                                <td>{{worker.email}}</td>
+                                <td>{{worker.admin!="0"?"Tak":"Nie"}}</td>
+                                <td (click)="Edit(worker)" class="table-action">Edytuj</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    @if(delete){
+        <div class="modal-backdrop">
+            <div class="modal-card">
+                <h3 class="section-title">Podaj hasło</h3>
+                <div class="form-row">
+                    <p class="form-label">Twoje hasło:</p>
+                    <input type="text" id="admin_pass" class="input-standart">
+                </div>
+                <div class="flex flex-wrap justify-center gap-3">
+                    <button [disabled]="loading" (click)="Delete(edited_worker)" class="button-standart button-danger">Usuń</button>
+                    <button [disabled]="loading" (click)="delete=null; error_message=''" class="button-standart button-neutral">Anuluj</button>
+                </div>
+                @if(error_message){<div class="msg-error">{{ error_message }}</div>}
+            </div>
+        </div>
+    }
+
+    @if(edited_worker){
+        <div class="modal-backdrop">
+            <div class="modal-card">
+                <h3 class="section-title">Wybierz czynność</h3>
+                <div class="table-wrap">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Imię</th>
+                                <th>Email</th>
+                                <th>Admin</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{edited_worker.name}}</td>
+                                <td>{{edited_worker.email}}</td>
+                                <td>{{edited_worker.admin!="0"?"Tak":"Nie"}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="flex flex-wrap justify-center gap-3">
+                    <button [disabled]="loading" (click)="Patch(edited_worker)" class="button-standart button-warn">Zmień</button>
+                    <button [disabled]="loading" (click)="Delete(edited_worker)" class="button-standart button-danger">Usuń</button>
+                    <button [disabled]="loading" (click)="edited_worker=null" class="button-standart button-neutral">Anuluj</button>
+                </div>
+                @if(error_message){<div class="msg-error">{{ error_message }}</div>}
+            </div>
+        </div>
+    }
+</div>

@@ -1,0 +1,69 @@
+<div class="container-standart">
+    <h1 class="title-header">Tabela opłacalności</h1>
+    <main>
+        <div class="flex flex-wrap justify-center items-end gap-4 mb-2">
+            <div class="flex flex-col items-start gap-1">
+                <p class="font-semibold text-sm">Miesiąc od:</p>
+                <select id="month_filter" class="input-standart !w-40">
+                    <option value=""></option>
+                    <option value="1">Styczeń</option>
+                    <option value="2">Luty</option>
+                    <option value="3">Marzec</option>
+                    <option value="4">Kwiecień</option>
+                    <option value="5">Maj</option>
+                    <option value="6">Czerwiec</option>
+                    <option value="7">Lipiec</option>
+                    <option value="8">Sierpień</option>
+                    <option value="9">Wrzesień</option>
+                    <option value="10">Październik</option>
+                    <option value="11">Listopad</option>
+                    <option value="12">Grudzień</option>
+                </select>
+            </div>
+            <div class="flex flex-col items-start gap-1">
+                <p class="font-semibold text-sm">Miesiąc do:</p>
+                <select id="month_filter-2" class="input-standart !w-40">
+                    <option value=""></option>
+                    <option value="1">Styczeń</option>
+                    <option value="2">Luty</option>
+                    <option value="3">Marzec</option>
+                    <option value="4">Kwiecień</option>
+                    <option value="5">Maj</option>
+                    <option value="6">Czerwiec</option>
+                    <option value="7">Lipiec</option>
+                    <option value="8">Sierpień</option>
+                    <option value="9">Wrzesień</option>
+                    <option value="10">Październik</option>
+                    <option value="11">Listopad</option>
+                    <option value="12">Grudzień</option>
+                </select>
+            </div>
+            <div class="flex flex-col items-start gap-1">
+                <p class="font-semibold text-sm">Rok:</p>
+                <input type="number" id="year_filter" class="input-standart !w-32">
+            </div>
+        </div>
+
+        <div class="flex flex-wrap justify-center gap-3">
+            <button [disabled]="loading" (click)="get_rates()" class="button-standart">Generuj</button>
+            <button [disabled]="loading || !rates.length" (click)="export_rates_excel()" class="button-standart button-mint">Ściągnij do Excel</button>
+        </div>
+
+        @if(error_message){<div class="msg-error mb-4">{{ error_message }}</div>}
+
+        @for(rate of rates; track $index){
+            <div class="summary-card" (click)="get_work_done(rate.client_nip)">
+                <div class="summary-card-head !bg-primary-200 flex justify-between items-start gap-4">
+                    <div>
+                        <p>{{rate.name}}</p>
+                        <p class="text-sm font-normal">NIP: {{rate.client_nip}}</p>
+                    </div>
+                    <p class="whitespace-nowrap">{{(rate.rate).toFixed(2)}} zł/h</p>
+                </div>
+                @if(selected==rate.client_nip){
+                    <div id="roll_down{{rate.client_nip}}" class="grid grid-cols-1 md:grid-cols-2 gap-3 p-3 bg-primary-50"></div>
+                }
+            </div>
+        }
+    </main>
+</div>
