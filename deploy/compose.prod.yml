@@ -1,0 +1,119 @@
+# Production stack for the VPS. The server keeps its own root-owned copy at /opt/swbo/compose.yml:
+# a deploy only ships new source code (./releases/current), never a new compose file. That way a leaked deploy
+# key cannot add privileged containers or host mounts. To change this file, copy it to the server by hand.
+name: swbo
+
+x-laravel-env: &laravel-env
+  APP_NAME: ${APP_NAME:-Laravel}
+  APP_ENV: production
+  APP_KEY: ${APP_KEY:?set APP_KEY in /opt/swbo/.env}
+  APP_DEBUG: "false"
+  APP_URL: https://${SITE_DOMAIN}
+  LOG_CHANNEL: stderr
+  DB_CONNECTION: mysql
+  DB_HOST: db
+  DB_PORT: 3306
+  DB_DATABASE: ${MYSQL_DATABASE}
+  DB_USERNAME: ${MYSQL_USER}
+  DB_PASSWORD: ${MYSQL_PASSWORD}
+  SESSION_SECURE_COOKIE: "true"
+  PEPPER: ${PEPPER}
+  ADMIN_ACCOUNT: ${ADMIN_ACCOUNT}
+  SECRET_KEY: ${SECRET_KEY}
+
+x-laravel-service: &laravel-service
+  build:
+    context: ./releases/current/backend
+    target: app
+  image: swbo-backend:latest
+  restart: unless-stopped
+  env_file:
+    - path: ./releases/current/backend/.env.docker
+      required: false
+  volumes:
+    - backend_storage:/var/www/html/storage
+  networks: [appnet]
+
+services:
+  caddy:
+    image: caddy:2.8-alpine
+    restart: unless-stopped
+    environment:
+      SITE_DOMAIN: ${SITE_DOMAIN}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on: [frontend]
+    networks: [appnet]
+
+  frontend:
+    build:
+      context: ./releases/current/frontend
+    image: swbo-frontend:latest
+    restart: unless-stopped
+    environment:
+      API_URL: /api
+    depends_on: [backend-web]
+    networks: [appnet]
+
+  backend:
+    <<: *laravel-service
+    environment:
+      <<: *laravel-env
+      RUN_MIGRATIONS: "false"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  backend-web:
+    build:
+      context: ./releases/current/backend
+      target: web
+    image: swbo-backend-web:latest
+    restart: unless-stopped
+    volumes:
+      - backend_storage:/var/www/html/storage:ro
+    depends_on: [backend]
+    networks: [appnet]
+
+  db:
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - db_data:/var/lib/mysql
+      # Runs only on the first start, when db_data is empty.
+      - ./releases/current/docker/mysql/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -p\"$$MYSQL_ROOT_PASSWORD\""]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    networks: [appnet]
+
+  # Database UI, reachable only through an SSH tunnel:
+  #   ssh -L 8080:127.0.0.1:8080 jbot   then open http://localhost:8080 (server: db)
+  adminer:
+    image: adminer:4-standalone
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8080:8080"
+    depends_on: [db]
+    networks: [appnet]
+
+networks:
+  appnet:
+
+volumes:
+  db_data:
+  backend_storage:
+  caddy_data:
+  caddy_config:

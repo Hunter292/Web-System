@@ -1,0 +1,70 @@
+<div class="container-standart">
+    <h1 class="title-header">Tabela pracowników</h1>
+    <main>
+        <section>
+            <div class="flex flex-wrap justify-center items-end gap-4 mb-2">
+                <div class="flex flex-col items-start gap-1">
+                    <p class="font-semibold text-sm">Miesiąc od:</p>
+                    <select id="month_filter" class="input-standart !w-40">
+                        <option value=""></option>
+                        <option value="1">Styczeń</option>
+                        <option value="2">Luty</option>
+                        <option value="3">Marzec</option>
+                        <option value="4">Kwiecień</option>
+                        <option value="5">Maj</option>
+                        <option value="6">Czerwiec</option>
+                        <option value="7">Lipiec</option>
+                        <option value="8">Sierpień</option>
+                        <option value="9">Wrzesień</option>
+                        <option value="10">Październik</option>
+                        <option value="11">Listopad</option>
+                        <option value="12">Grudzień</option>
+                    </select>
+                </div>
+                <div class="flex flex-col items-start gap-1">
+                    <p class="font-semibold text-sm">Miesiąc do:</p>
+                    <select id="month_filter-2" class="input-standart !w-40">
+                        <option value=""></option>
+                        <option value="1">Styczeń</option>
+                        <option value="2">Luty</option>
+                        <option value="3">Marzec</option>
+                        <option value="4">Kwiecień</option>
+                        <option value="5">Maj</option>
+                        <option value="6">Czerwiec</option>
+                        <option value="7">Lipiec</option>
+                        <option value="8">Sierpień</option>
+                        <option value="9">Wrzesień</option>
+                        <option value="10">Październik</option>
+                        <option value="11">Listopad</option>
+                        <option value="12">Grudzień</option>
+                    </select>
+                </div>
+                <div class="flex flex-col items-start gap-1">
+                    <p class="font-semibold text-sm">Rok:</p>
+                    <input type="number" id="year_filter" class="input-standart !w-32">
+                </div>
+            </div>
+
+            <button [disabled]="loading" (click)="get_staff()" class="button-standart">Generuj</button>
+
+            @if(error_message){<div class="msg-error mb-4">{{ error_message }}</div>}
+            <div id="table"></div>
+
+            @for(worker of workers; track $index){
+                <div class="summary-card" (click)="to_worker(worker.id)">
+                    <div class="summary-card-head">
+                        <p>{{worker.head}} h</p>
+                    </div>
+                    <div class="summary-card-grid">
+                        @for(job of job_list; track $index){
+                            <div class="summary-card-item">
+                                <span>{{job}}</span>
+                                <span class="font-bold">{{worker.body[$index]}} h</span>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        </section>
+    </main>
+</div>

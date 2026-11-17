@@ -1,0 +1,29 @@
+# ---------- Build stage ----------
+FROM node:22-alpine AS build
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+RUN npm ci
+
+COPY . .
+RUN npm run build -- --configuration production
+
+# ---------- Runtime stage ----------
+FROM nginx:1.27-alpine AS runtime
+
+COPY --from=build /app/dist/*/browser /usr/share/nginx/html
+
+COPY docker/nginx.conf /etc/nginx/conf.d/default.conf
+COPY docker/entrypoint.sh /docker-entrypoint.d/30-runtime-config.sh
+
+# Windows checkouts can reintroduce CRLF. A CRLF shebang ("#!/bin/sh\r") makes
+# execve fail with ENOENT, so the entrypoint exits 127 and the container loops.
+RUN tr -d '\r' < /etc/nginx/conf.d/default.conf > /tmp/default.conf \
+ && mv /tmp/default.conf /etc/nginx/conf.d/default.conf \
+ && tr -d '\r' < /docker-entrypoint.d/30-runtime-config.sh > /tmp/30-runtime-config.sh \
+ && mv /tmp/30-runtime-config.sh /docker-entrypoint.d/30-runtime-config.sh \
+ && chmod +x /docker-entrypoint.d/30-runtime-config.sh
+
+ENV API_URL=/api
+
+EXPOSE 80

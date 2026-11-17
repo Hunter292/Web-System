@@ -1,0 +1,27 @@
+<div class="top-banner">
+    <img src="/assets/logo.png" alt="Rose System" class="mx-auto h-24 py-2">
+</div>
+<header class="site-header">
+    @if(!is_admin){
+    <nav class="site-nav">
+        <a class="site-nav-link" (click)="to_task()">Zadania @if(count){({{count}})}</a>
+        <a class="site-nav-link" (click)="to_timer()">Timer</a>
+        <a class="site-nav-link" (click)="to_mailer()">Wyliczenia</a>
+        <a class="site-nav-link" (click)="to_profile()">Profil</a>
+        <a class="site-nav-link" (click)="log_out()">Log out</a>
+    </nav>
+    }
+    @if(is_admin){
+    <nav class="site-nav">
+        <a class="site-nav-link" (click)="to_task()">Zadania @if(count){({{count}})}</a>
+        <a class="site-nav-link" (click)="to_timer()">Timer</a>
+        <a class="site-nav-link" (click)="to_mailer()">Wyliczenia</a>
+        <a class="site-nav-link" (click)="to_stats()">Opłacalność</a>
+        <a class="site-nav-link" (click)="to_workers()">Statystyki</a>
+        <a class="site-nav-link" (click)="to_income()">Wpływy</a>
+        <a class="site-nav-link" (click)="to_hr()">Kadry</a>
+        <a class="site-nav-link" (click)="to_profile()">Profil</a>
+        <a class="site-nav-link" (click)="log_out()">Log out</a>
+    </nav>
+    }
+</header>
