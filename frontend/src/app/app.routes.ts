@@ -8,9 +8,9 @@ import { Oplacalnosc } from './oplacalnosc/oplacalnosc';
 import { Staff } from './staff/staff';
 import { Worker } from './worker/worker';
 import { UserManagement } from './user-management/user-management';
-// import { Mailer } from './mailer/mailer';
+import { Mailer } from './mailer/mailer';
 import { Profile } from './profile/profile';
-// import { Tasks } from './tasks/tasks';
+import { Tasks } from './tasks/tasks';
 import { PasswordReset } from './password-reset/password-reset';
 
 export const routes: Routes = [
@@ -23,9 +23,9 @@ export const routes: Routes = [
     {path:'pracownicy', component: Staff},
     {path:'pracownicy/:id', component: Worker},
     {path:'kadry', component: UserManagement},
-    // {path:'wyliczenia', component: Mailer},
+    {path:'wyliczenia', component: Mailer},
     {path:'profil', component: Profile},
-    // {path:'zadania', component: Tasks},
+    {path:'zadania', component: Tasks},
     {path: 'reset-password/:token', component: PasswordReset,data:{ hideNavbar: true }},
 
 

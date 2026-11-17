@@ -1,0 +1,207 @@
+<div class="container-standart">
+    <h1 class="title-header">Wysyłanie raportów</h1>
+    <main class="space-y-10">
+        <section>
+            <h3 class="section-title">Wyślij raport podatkowy</h3>
+            <form [formGroup]="inputForm" (ngSubmit)="file_report()">
+                <div class="form-row">
+                    <p class="form-label">Wybierz klienta:</p>
+                    <select formControlName="client_nip" (change)="get_emails(); get_micro()" class="input-standart">
+                        @for(client of clients; track $index){
+                            <option value="{{client.client_nip}}">{{client.name}}</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-row">
+                    <p class="form-label">Dodatkowe informacje:</p>
+                    <textarea formControlName="notes" class="input-standart"></textarea>
+                </div>
+                <div class="form-row">
+                    <p class="form-label">Okres:</p>
+                    <input type="text" placeholder="RRRR/MM-RRRR" formControlName="date" class="input-standart">
+                </div>
+
+                <h4 class="font-bold text-lg text-center mt-8 mb-3">Wskaż na jakie emaile wysłać wyliczenie</h4>
+                @for(item of createRange(emails); track $index){
+                    <div class="form-row">
+                        <p class="form-label">Wpisz email {{$index+1}}:</p>
+                        <select id="email-{{$index}}" (change)="change_email($event)" class="input-standart">
+                            <option value="0"></option>
+                            @if(!client_mails.length){<option value="0">ładowanie</option>}
+                            @for(email of client_mails; track $index){
+                                <option value="{{email.email_id}}">{{email.email}}</option>
+                            }
+                        </select>
+                    </div>
+                }
+
+                <h4 class="font-bold text-lg text-center mt-8 mb-3">Dodaj nowy email dla klienta</h4>
+                <div class="flex flex-wrap justify-center items-center gap-3 mb-6">
+                    <input type="email" id="email-new" placeholder="nowy@email.pl" class="input-standart !w-72">
+                    <button type="button" [disabled]="loading" (click)="$event.preventDefault();file_email()" class="button-standart !my-0">Dodaj email</button>
+                </div>
+                @if(error_message){<div class="msg-error">{{ error_message }}</div>}
+                @if(success_message){<div class="msg-success">{{ success_message }}</div>}
+
+                <h4 class="section-title mt-10">Wprowadź podatki</h4>
+                @for(item of createRange(taxes); track $index){
+                    <div class="border-2 border-[#111] bg-primary-50 p-4 my-4 max-w-2xl mx-auto text-left">
+                        <h5 class="font-bold text-base mb-3 pb-1 border-b-2 border-[#111]">Podatek {{$index+1}}</h5>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <p class="font-semibold text-sm mb-1">Nazwa</p>
+                                <input id="tax-{{$index}}" type="text" (change)="change_taxes($event)" class="input-standart !w-full !max-w-none" list="suggestions">
+                                <datalist id="suggestions">
+                                    <option value="VAT7">
+                                    <option value="VAT7K">
+                                    <option value="VAT8">
+                                    <option value="VAT9">
+                                    <option value="PIT36">
+                                    <option value="PIT36L">
+                                    <option value="PIT8AR">
+                                    <option value="PIT4">
+                                    <option value="CIT 10Z">
+                                    <option value="CIT8">
+                                    <option value="ZUS">
+                                </datalist>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-sm mb-1">Wartość</p>
+                                <input id="tax_v-{{$index}}" type="number" step="0.01" class="input-standart !w-full !max-w-none">
+                            </div>
+                            <div>
+                                <p class="font-semibold text-sm mb-1">Mikro rachunek</p>
+                                <select id="tax_acc-{{$index}}" class="input-standart !w-full !max-w-none">
+                                    <option value="0"></option>
+                                    @if(!client_micro.length){<option value="0">ładowanie</option>}
+                                    @for(micro of client_micro; track $index){
+                                        <option value="{{micro.acc_number}}">{{micro.acc_number}}{{micro.ZUS==1?" ZUS":micro.ZUS?micro.ZUS:""}}</option>
+                                    }
+                                </select>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-sm mb-1">Termin płatności</p>
+                                <input id="tax_m-{{$index}}" type="date" class="input-standart !w-full !max-w-none">
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                <button [disabled]="loading" type="submit" class="button-standart">Prześlij</button>
+
+                @if(error_message){<div class="msg-error">{{ error_message }}</div>}
+                @if(success_message){<div class="msg-success">{{ success_message }}</div>}
+            </form>
+        </section>
+
+        <section>
+            <h3 class="section-title">Zmień nazwę klienta</h3>
+            <div class="form-row">
+                <p class="form-label">Klient:</p>
+                <select id="client_patch" class="input-standart">
+                    <option value=""></option>
+                    @for(client of clients; track $index){
+                        <option value="{{client.client_nip}}">{{client.name}}</option>
+                    }
+                </select>
+            </div>
+            <div class="form-row">
+                <p class="form-label">Nowa nazwa:</p>
+                <input type="text" id="name_patch" class="input-standart">
+            </div>
+            <button [disabled]="loading" (click)="patch_client()" class="button-standart">Prześlij</button>
+
+            @if(error_message){<div class="msg-error">{{ error_message }}</div>}
+            @if(success_message){<div class="msg-success">{{ success_message }}</div>}
+        </section>
+
+        <section>
+            <h3 class="section-title">Dodaj nowy mikro rachunek dla klienta</h3>
+            <div class="form-row">
+                <p class="form-label">Wpisz numer:</p>
+                <input type="text" id="micro-new" class="input-standart">
+            </div>
+            <div class="flex justify-center items-center gap-3 mt-4">
+                <p class="font-semibold text-sm sm:text-base">ZUS?</p>
+                <label class="toggler-wrapper style-1">
+                    <input type="checkbox" id="zus">
+                    <div class="toggler-slider">
+                        <div class="toggler-knob"></div>
+                    </div>
+                </label>
+            </div>
+            <button [disabled]="loading" (click)="file_micro()" class="button-standart">Prześlij</button>
+            @if(error_message){<div class="msg-error">{{ error_message }}</div>}
+            @if(success_message){<div class="msg-success">{{ success_message }}</div>}
+        </section>
+
+        <section>
+            <h3 class="section-title">Wysłane raporty</h3>
+            <div class="flex flex-wrap justify-center items-end gap-4 mb-4">
+                <div class="flex flex-col items-start gap-1">
+                    <p class="font-semibold text-sm">Klient:</p>
+                    <select id="client_filter" (change)="get_reports(1)" class="input-standart !w-52">
+                        <option value="">Wszyscy</option>
+                        @for(client of clients; track $index){
+                            <option value="{{client.client_nip}}">{{client.name}}</option>
+                        }
+                    </select>
+                </div>
+                <div class="flex flex-col items-start gap-1">
+                    <p class="font-semibold text-sm">Miesiąc:</p>
+                    <select id="month_filter" (change)="get_reports(1)" class="input-standart !w-36">
+                        <option value=""></option>
+                        <option value="1">Styczeń</option>
+                        <option value="2">Luty</option>
+                        <option value="3">Marzec</option>
+                        <option value="4">Kwiecień</option>
+                        <option value="5">Maj</option>
+                        <option value="6">Czerwiec</option>
+                        <option value="7">Lipiec</option>
+                        <option value="8">Sierpień</option>
+                        <option value="9">Wrzesień</option>
+                        <option value="10">Październik</option>
+                        <option value="11">Listopad</option>
+                        <option value="12">Grudzień</option>
+                    </select>
+                </div>
+                <div class="flex flex-col items-start gap-1">
+                    <p class="font-semibold text-sm">Rok:</p>
+                    <input type="number" id="year_filter" (change)="get_reports(1)" class="input-standart !w-28">
+                </div>
+            </div>
+
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Klient</th>
+                            <th>Księgowa</th>
+                            <th class="w-28">Data</th>
+                            <th class="min-w-72">Zawartość</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if(reports_loaded){
+                            @for(report of reports; track $index){
+                                <tr>
+                                    <td>{{report.client.name}}</td>
+                                    <td>{{report.employee.name}}</td>
+                                    <td>{{(report.date).substring(0,10)}}</td>
+                                    <td>
+                                        @for(content of report.content.split(";"); track $index){
+                                            <p>{{content}}</p>
+                                        }
+                                        {{report.notes}}
+                                    </td>
+                                    <td class="whitespace-pre-line">{{report_email_list[$index]}}</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+</div>
