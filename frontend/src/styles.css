@@ -325,4 +325,37 @@ h1, h2, h3, .title-header, .section-title, .tile-btn, .button-standart, .button-
         border-radius: 0;
         box-shadow: 6px 6px 0 var(--ink);
     }
+
+    /* Clickable thick-bordered summary cards (used by staff / oplacalnosc) */
+    .summary-card {
+        @apply mb-5 bg-white text-left cursor-pointer transition-transform duration-150;
+        border: var(--border-w) solid var(--ink);
+        border-radius: 0;
+        box-shadow: 4px 4px 0 var(--ink);
+    }
+
+    .summary-card:hover {
+        transform: translate(-1px, -1px);
+        box-shadow: 5px 5px 0 var(--ink);
+    }
+
+    .summary-card-head {
+        @apply px-4 py-3 text-lg sm:text-xl font-bold bg-amber-300 text-[#111111] transition-colors duration-150;
+        border-bottom: var(--border-w) solid var(--ink);
+        font-family: var(--font-display);
+    }
+
+    .summary-card:hover .summary-card-head {
+        @apply bg-primary-600 text-white;
+    }
+
+    .summary-card-grid {
+        @apply grid grid-cols-1 md:grid-cols-2;
+    }
+
+    .summary-card-item {
+        @apply flex justify-between items-center gap-3 px-4 py-2 text-sm sm:text-base;
+        border-bottom: 1px solid #D6D3D1;
+        border-right: 1px solid #D6D3D1;
+    }
 }

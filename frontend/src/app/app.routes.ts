@@ -5,7 +5,7 @@ import { E404 } from './e404/e404';
 import { WorkDone } from './work-done/work-done';
 import { Income } from './income/income';
 // import { Oplacalnosc } from './oplacalnosc/oplacalnosc';
-// import { Staff } from './staff/staff';
+import { Staff } from './staff/staff';
 // import { Worker } from './worker/worker';
 import { UserManagement } from './user-management/user-management';
 // import { Mailer } from './mailer/mailer';
@@ -20,7 +20,7 @@ export const routes: Routes = [
     {path:'timer', component: WorkDone},
     {path:'faktury', component: Income},
     // {path:'oplacalnosc', component: Oplacalnosc},
-    // {path:'pracownicy', component: Staff},
+    {path:'pracownicy', component: Staff},
     // {path:'pracownicy/:id', component: Worker},
     {path:'kadry', component: UserManagement},
     // {path:'wyliczenia', component: Mailer},
