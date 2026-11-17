@@ -25,7 +25,7 @@ class PatchSelfUserRequest extends FormRequest
     {
         return [
             'username'=>'missing',
-            'password'=>'sometimes|string|min:8|max:255',
+            'password'=>'nullable|string|min:8|max:255',
             'pass_admin'=>'required|string',
             'email'=>'sometimes|email|max:255',
             'admin'=>'missing'

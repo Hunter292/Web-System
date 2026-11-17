@@ -62,7 +62,7 @@ export class Profile {
       return;
     }
     this.loading = true;
-    this.http.patch<any>(`${sessionStorage.getItem("apiURL")}/register/`, {password:password,email:email,pass:pass
+    this.http.patch<any>(`${sessionStorage.getItem("apiURL")}/register/`, {password:password,email:email,pass_admin:pass
       }).subscribe({
           next: data => {
               this.error_message="";

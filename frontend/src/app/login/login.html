@@ -6,7 +6,6 @@
             <input placeholder="email" type="email" formControlName="email" class="input-wide">
             <div class="msg-error" *ngIf="loginForm.get('email')?.hasError('email')">Invalid email</div>
             <input placeholder="hasło" type="password" formControlName="password" class="input-wide">
-            <div class="msg-error" *ngIf="loginForm.get('password')?.hasError('minlength')">Password must be at least 5 characters long</div>
             <br/>
             <button type="submit" [disabled]="loading" class="button-standart">Zaloguj się</button>
             <div *ngIf="errorMessage" class="msg-error">{{ errorMessage }}</div>

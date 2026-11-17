@@ -9,10 +9,12 @@
         <a class="site-nav-link" (click)="to_mailer()">Wyliczenia</a>
         <a class="site-nav-link" (click)="to_profile()">Profil</a>
         <a class="site-nav-link" (click)="log_out()">Log out</a>
+        <a class=" block sm:hidden border-b-2 border-r-2 border-dotted border-primary-500" ></a>
+
     </nav>
     }
     @if(is_admin){
-    <nav class="site-nav">
+    <nav class="site-nav-admin">
         <a class="site-nav-link" (click)="to_task()">Zadania @if(count){({{count}})}</a>
         <a class="site-nav-link" (click)="to_timer()">Timer</a>
         <a class="site-nav-link" (click)="to_mailer()">Wyliczenia</a>
@@ -22,6 +24,8 @@
         <a class="site-nav-link" (click)="to_hr()">Kadry</a>
         <a class="site-nav-link" (click)="to_profile()">Profil</a>
         <a class="site-nav-link" (click)="log_out()">Log out</a>
+        <a class=" hidden md:block lg:hidden border-b-2 border-r-2 border-dotted border-primary-500" ></a>
+
     </nav>
     }
 </header>

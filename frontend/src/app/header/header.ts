@@ -23,6 +23,7 @@ export class Header {
   active=input<boolean>(false);
   ngOnInit(){
     if(!this.active) return;
+    if(!this.tokenService.getUser()) return;
     this.is_admin=this.tokenService.getUser()?.admin;
     this.http.get<any>(`${sessionStorage.getItem("apiURL")}/task/new`).subscribe({
       next: data => {

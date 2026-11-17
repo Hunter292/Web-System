@@ -97,7 +97,7 @@ export class Income {
               this.changeDetectorRef.detectChanges();
           },
           error: (error) => {
-              this.error_message = error.error.message;
+              this.error_message = error.error.detail;
               this.success_message="";
               console.error('There was an error!', error);
               return;
@@ -121,7 +121,7 @@ export class Income {
             this.changeDetectorRef.detectChanges();
         },
         error: (error) => {
-            this.error_message = error.error.message;
+            this.error_message = error.error.detail;
             this.success_message="";
             console.error('There was an error!', error);
             return;
@@ -136,7 +136,7 @@ export class Income {
           this.changeDetectorRef.detectChanges();
       },
       error: (error) => {
-          this.error_message = error.error.message;
+          this.error_message = error.error.detail;
           this.success_message="";
           console.error('There was an error!', error);
           this.loading=false;
@@ -158,7 +158,7 @@ export class Income {
             this.changeDetectorRef.detectChanges();
         },
         error: (error) => {
-            this.error_message = error.error.message;
+            this.error_message = error.error.detail;
             this.success_message="";
             this.loading=false;
             console.error('There was an error!', error);
@@ -194,7 +194,7 @@ export class Income {
               this.changeDetectorRef.detectChanges();
           },
           error: (error) => {
-              this.error_message = error.error.message;
+              this.error_message = error.error.detail;
               this.success_message="Dodano wpłatę";
               console.error('There was an error!', error);
               this.loading=false;
@@ -215,7 +215,7 @@ export class Income {
               this.get_income();
           },
           error: (error) => {
-              this.error_message = error.error.message;
+              this.error_message = error.error.detail;
               this.success_message="";
               console.error('There was an error!', error);
               this.loading=false;
@@ -242,7 +242,7 @@ export class Income {
               this.changeDetectorRef.detectChanges();
           },
           error: (error) => {
-              this.error_message = error.error.message;
+              this.error_message = error.error.detail;
               this.success_message="";
               console.error('There was an error!', error);
               this.loading=false;
@@ -264,7 +264,8 @@ export class Income {
               this.changeDetectorRef.detectChanges();
           },
           error: (error) => {
-              this.error_message = error.error.message;
+              this.loading=false;
+              this.error_message = error.error.detail;
               this.success_message="";
               console.error('There was an error!', error);
               this.loading=false;
@@ -292,7 +293,7 @@ export class Income {
               this.changeDetectorRef.detectChanges();
           },
           error: (error) => {
-              this.error_message = error.error.message;
+              this.error_message = error.error.detail;
               this.success_message="";
               console.error('There was an error!', error);
               this.loading=false;
