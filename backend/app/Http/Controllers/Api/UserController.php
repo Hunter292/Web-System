@@ -63,7 +63,7 @@ class UserController extends Controller
         if($user->admin!=2) $validated['admin']=0;
         if($user->admin==2 && $user->email!=getenv('ADMIN_ACCOUNT') && $validated['admin']>1)$validated['admin']=1;
         if($user==$employee) $validated['admin']=$user->admin;
-        elseif(($employee->admin&&$user->admin!=2)||($employee->admin==2&&$user->email!=getenv('ADMIN_ACCOUNT'))){
+        elseif(($employee->admin&&$user->admin!=2)||($employee->admin==2&&$user->email==getenv('ADMIN_ACCOUNT'))){
             return new ErrorResource([
                 'message' => 'Unauthorized',
                 'status_code' => 400
