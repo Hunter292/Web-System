@@ -46,16 +46,12 @@ export class Login {
 
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/home';
   }
-
+  
   async ngOnInit(){
     // this.authService.check_login();
     if (sessionStorage.getItem("logged")) {
       this.router.navigate(['/home']);
     } 
-    
-    this.load_reports();
-    this.clients=await this.util.get_clients();
-    if(!this.clients.length) this.error_message="Problem z pobraniem danych klientów";
   }
 
   log_in(){
