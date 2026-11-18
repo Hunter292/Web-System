@@ -34,14 +34,14 @@ h1, h2, h3, .title-header, .section-title, .tile-btn, .button-standard, .button-
     font-family: var(--font-display);
 }
 
-@layer components {
-    /* Panels & headings */
-    .container-standard {
-        @apply w-full sm:w-lg md:w-xl lg:w-3xl xl:w-5xl mx-auto bg-white text-center py-8 px-4 sm:p-10 text-base sm:text-lg mb-8;
-        border: var(--border-w) solid var(--ink);
-        border-radius: 0;
-        /*box-shadow: 4px 4px 0 var(--ink);*/
-    }
+    @layer components {
+        /* Panels & headings x*/
+        .container-standard {
+            @apply w-full sm:w-lg md:w-xl lg:w-5xl xl:w-5xl mx-auto bg-white text-center py-8 px-4 sm:p-10 text-base sm:text-lg mb-8;
+            border: var(--border-w) solid var(--ink);
+            border-radius: 0;
+            /*box-shadow: 4px 4px 0 var(--ink);*/
+        }
 
     .title-header {
         @apply text-3xl sm:text-5xl font-bold tracking-tight text-center mb-6 pb-4 text-primary-800;
