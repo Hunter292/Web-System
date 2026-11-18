@@ -28,7 +28,7 @@ class PostUserRequest extends FormRequest
             'password'=>'required|string|min:8|max:255',
             'pass_admin'=>'required|string',
             'email'=>'required|email|max:255|unique:App\Models\Employee,email',
-            'admin'=>'required|integer|min:0|max:2'
+            'admin'=>'required'
         ];
     }
     protected function failedValidation(Validator $validator)

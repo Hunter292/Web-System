@@ -28,7 +28,7 @@ class PatchUserRequest extends FormRequest
             'password'=>'sometimes|string|min:8|max:255',
             'pass_admin'=>'required|string',
             'email'=>'sometimes|email|max:255',
-            'admin'=>'sometimes|integer|min:0|max:2'
+            'admin'=>'sometimes'
         ];
     }
     protected function failedValidation(Validator $validator)
