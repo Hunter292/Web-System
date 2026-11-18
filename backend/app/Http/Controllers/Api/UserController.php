@@ -17,7 +17,7 @@ class UserController extends Controller
 {
     public function post(PostUserRequest $request){
         $user=$request->user();
-        $validated=$request->validated();
+        $validated=$this->username_to_name($request->validated());
         if(!$this->check_admin_pass($user,$validated['pass_admin'])) return $this->wrong_admin_pass();
         if($validated['admin']&&$user->admin!=2){
             return new ErrorResource([
@@ -56,7 +56,7 @@ class UserController extends Controller
         ]);
     }
     public function patch(PatchUserRequest $request, Employee $employee){
-        $validated=$request->validated();
+        $validated=$this->username_to_name($request->validated());
         $user=$request->user();
         if(!$this->check_admin_pass($user,$validated['pass_admin'])) return $this->wrong_admin_pass();
        
@@ -127,6 +127,14 @@ class UserController extends Controller
     private function check_admin_pass(Employee $user, string $pass): bool{
         $pass=hash_hmac("sha256", $pass, getenv("PEPPER"));
         return password_verify($pass,$user->password);
+    }
+    // The frontend sends "username", but the pracownik column is "name".
+    private function username_to_name(array $validated): array{
+        if(array_key_exists('username',$validated)){
+            $validated['name']=$validated['username'];
+            unset($validated['username']);
+        }
+        return $validated;
     }
     private function wrong_admin_pass(){
         return new ErrorResource([
