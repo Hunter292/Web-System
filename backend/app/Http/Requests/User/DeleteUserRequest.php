@@ -24,7 +24,7 @@ class DeleteUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'admin_pass'=>'required|string'
+            'pass_admin'=>'required|string'
         ];
     }
     protected function failedValidation(Validator $validator)

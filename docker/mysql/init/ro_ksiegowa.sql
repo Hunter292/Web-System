@@ -403,7 +403,6 @@ INSERT INTO `zadanie` (`task_id`, `date`, `deadline`, `employee_id`, `client_nip
 (13, '2026-11-09 23:00:00', '2026-11-19', 6, '0', 'interest rate', 0);
 
 
--
 --
 -- Indexes for dumped tables
 --

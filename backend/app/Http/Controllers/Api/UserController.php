@@ -18,7 +18,7 @@ class UserController extends Controller
     public function post(PostUserRequest $request){
         $user=$request->user();
         $validated=$request->validated();
-        UserController::check_admin_pass($user,$validated['admin_pass']);
+        if(!$this->check_admin_pass($user,$validated['pass_admin'])) return $this->wrong_admin_pass();
         if($validated['admin']&&$user->admin!=2){
             return new ErrorResource([
                 'message' => 'Unauthorized',
@@ -36,7 +36,7 @@ class UserController extends Controller
     public function delete(DeleteUserRequest $request,Employee $employee){ 
         $validated=$request->validated();
         $user=$request->user();
-        UserController::check_admin_pass($user,$validated['admin_pass']);
+        if(!$this->check_admin_pass($user,$validated['pass_admin'])) return $this->wrong_admin_pass();
 
         if(($employee->admin&&$user->admin!=2)||($employee->admin==2&&$user->email!=getenv('ADMIN_ACCOUNT'))){
             return new ErrorResource([
@@ -58,7 +58,7 @@ class UserController extends Controller
     public function patch(PatchUserRequest $request, Employee $employee){
         $validated=$request->validated();
         $user=$request->user();
-        UserController::check_admin_pass($user,$validated['admin_pass']);
+        if(!$this->check_admin_pass($user,$validated['pass_admin'])) return $this->wrong_admin_pass();
        
         if($user->admin!=2) $validated['admin']=0;
         if($user->admin==2 && $user->email!=getenv('ADMIN_ACCOUNT') && $validated['admin']>1)$validated['admin']=1;
@@ -91,7 +91,7 @@ class UserController extends Controller
     public function patch_self(PatchSelfUserRequest $request){
         $validated=$request->validated();
         $user=$request->user();
-        UserController::check_admin_pass($user,$validated['pass_admin']);
+        if(!$this->check_admin_pass($user,$validated['pass_admin'])) return $this->wrong_admin_pass();
         if(isset($validated['email'])&& $validated['email']!=$user->email){
             $exists=Employee::where('email',$validated['email'])->where('employee_id','!=',$user->email)->count();
             if($exists){
@@ -124,13 +124,14 @@ class UserController extends Controller
         return response()->json($employees,200);
 
     }
-    private function check_admin_pass(Employee $user, string $pass){
+    private function check_admin_pass(Employee $user, string $pass): bool{
         $pass=hash_hmac("sha256", $pass, getenv("PEPPER"));
-        if(!password_verify($pass,$user->password)){
-            return new ErrorResource([
-                'message' => 'Unauthorized',
-                'status_code' => 401
-            ]);
-        }
+        return password_verify($pass,$user->password);
+    }
+    private function wrong_admin_pass(){
+        return new ErrorResource([
+            'message' => 'Błędne hasło administratora',
+            'status_code' => 401
+        ]);
     }
 }
