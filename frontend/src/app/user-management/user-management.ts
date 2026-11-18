@@ -69,6 +69,7 @@ export class UserManagement {
     const {name,email,password,pass_admin}=this.inputForm.value;
     let box =document.getElementById("admin_box") as HTMLInputElement;
     let admin=box.checked;
+    if(!admin) admin=0;
     if(!this.patch){
       this.http.post<any>(`${sessionStorage.getItem("apiURL")}/register`, {username:name,password:password,email:email,pass_admin:pass_admin,admin:admin
         }).subscribe({
